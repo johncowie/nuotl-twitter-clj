@@ -1,0 +1,19 @@
+(ns nuotl-twitter.parsing.date-test
+  (:use [midje.sweet])
+  (:require [nuotl-twitter.parsing.date :as parser]
+            [clj-time.core :as t])
+  )
+
+(defn matches-date? [y m d]
+ (fn [val]
+   (and (not (nil? val))
+        (= (t/year val) y)
+        (= (t/month val) m)
+        (= (t/day val) d)
+        )))
+
+(facts
+ (parser/parse-date "lkjlsdf") => nil
+ (parser/parse-date "25/12/2012") => (matches-date? 2012 12 25)
+ (parser/parse-date "2/1/2013") => (matches-date? 2013 1 2)
+ )
