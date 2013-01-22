@@ -3,7 +3,8 @@
 (def areas
   {
    :n {:name "North London" :region :london}
-  }
+   :cf {:name "Cardiff" :region :wales}
+   }
   )
 
 (defn parse-area [string]
