@@ -16,26 +16,29 @@
    (clojure.string/split text #" " 6))
 
 (defn parse-tweet-text [text]
-  (let [parts (get-parts text)
-        ret (transient {:value {} :message :none})]
+  (let [parts (get-parts text)]
     (if (>= (count parts) 6)
-      (loop [i 0 ret {:value {} :message :none}]
+      (loop [i 0 ret {}]
         (if (< i (count tweet-structure))
           (let [parse-map (tweet-structure i)]
             (if-let [val ((parse-map :function) (parts (parse-map :part)))]
-              (recur (inc i) (assoc-in ret [:value (parse-map :id)] val))
-              {:value nil :message (parse-map :error)}))
-          (assoc ret :message "Success")))
-      {:value nil :message "Not enought parts"})))
+              (recur (inc i) (assoc ret (parse-map :id) val))
+              {:error (parse-map :error)}))
+          (assoc ret :text (parts 5))))
+      {:error "Not enough parts"})))
 
 (defn merge-date-and-time [date time]
   (clj-time/date-time (clj-time/year date) (clj-time/month date) (clj-time/day date)
                       (clj-time/hour time) (clj-time/minute time) (clj-time/sec time)))
 
-(defn infer-end-date [map]
-  (let [start ])
-  {assoc map :end
-   (clj-time/plus  (map :start) (clj-time/minutes (map :duration)))
-   })
+(defn infer-end-date [m]
+  (let [start (merge-date-and-time (m :date) (m :time))]
+    (let [end (clj-time/plus start (clj-time/minutes (m :duration)))]
+       (merge m {:start start :end end})
+      )))
 
-(parse-tweet-text "@nuotl 1/3/2013 08:00 5h ")
+(defn parse-tweet [text]
+  (let [ret-map (parse-tweet-text text)]
+    (if (nil? (ret-map :error))
+      (infer-end-date ret-map)
+      ret-map)))
