@@ -1,11 +1,7 @@
 (ns nuotl-twitter.dao
-  (:require [monger.core :as mg]
-            [monger.collection :as mc]
+  (:require [monger.collection :as mc]
             [monger.joda-time]
             ))
-
-(mg/connect!)
-(mg/set-db! (mg/get-db "nuotl"))
 
 (defn get-areas []
   (mc/find-maps "area" {}))
