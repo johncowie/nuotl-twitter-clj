@@ -6,10 +6,10 @@
             [clj-time.core :as clj-time]
             ))
 
-(def tweet-structure [{ :part 1 :id :date     :function #(date/parse-date %)         :error "Date problem"}
-                      { :part 2 :id :time     :function #(time/parse-time %)         :error "Time problem"}
-                      { :part 3 :id :duration :function #(duration/parse-duration %) :error "Duration problem"}
-                      { :part 4 :id :area     :function #(area/parse-area %)         :error "Area problem"}
+(def tweet-structure [{ :part 1 :id :date     :function #(date/parse-date %)         }
+                      { :part 2 :id :time     :function #(time/parse-time %)         }
+                      { :part 3 :id :duration :function #(duration/parse-duration %) }
+                      { :part 4 :id :area     :function #(area/parse-area %)         }
                       ])
 
 (defn get-parts [text]
@@ -23,9 +23,9 @@
           (let [parse-map (tweet-structure i)]
             (if-let [val ((parse-map :function) (parts (parse-map :part)))]
               (recur (inc i) (assoc ret (parse-map :id) val))
-              {:error (parse-map :error)}))
+              {:error (parse-map :id)}))
           (assoc ret :text (parts 5))))
-      {:error "Not enough parts"})))
+      {:error :not-enough-words})))
 
 (defn merge-date-and-time [date time]
   (clj-time/date-time (clj-time/year date) (clj-time/month date) (clj-time/day date)
@@ -34,7 +34,7 @@
 (defn infer-end-date [m]
   (let [start (merge-date-and-time (m :date) (m :time))]
     (let [end (clj-time/plus start (clj-time/minutes (m :duration)))]
-       (merge m {:start start :end end})
+      (dissoc (merge m {:start start :end end}) :date :time :duration)
       )))
 
 (defn parse-tweet [text]
