@@ -4,5 +4,6 @@
 
 (facts
  (area/parse-area "asdf") => nil
- (area/parse-area "N") => {:name "North London" :region :london}
+ (area/parse-area "N") => :n
+ (area/parse-area "n") => :n
  )

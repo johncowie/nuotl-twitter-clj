@@ -11,6 +11,6 @@
  (p/parse-tweet "@nuotl 1/2/2013 8am 3h X TEXT") => {:error :area}
  (p/parse-tweet "@nuotl 1/2/2013 8am 3h N TEXT") => {:start (t/date-time 2013 2 1 8 0 0)
                                                      :end (t/date-time 2013 2 1 11 0 0)
-                                                     :area {:name "North London" :region :london}
+                                                     :area :n
                                                      :text "TEXT"}
  )

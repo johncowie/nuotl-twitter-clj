@@ -8,5 +8,5 @@
   )
 
 (defn parse-area [string]
-  (areas (keyword (clojure.string/lower-case string)))
-  )
+  (let [id (keyword (clojure.string/lower-case string))]
+    (if (contains? areas id) id nil)))

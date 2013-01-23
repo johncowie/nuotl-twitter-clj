@@ -11,6 +11,7 @@
                  [midje "1.4.0"]
                  [clj-time "0.4.4"]
                  [cheshire "5.0.0"]
+                 [com.novemberain/monger "1.4.2"]
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]
