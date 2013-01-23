@@ -3,6 +3,7 @@
             [nuotl-twitter.parsing.time :as time]
             [nuotl-twitter.parsing.duration :as duration]
             [nuotl-twitter.parsing.area :as area]
+            [clj-time.core :as clj-time]
             ))
 
 (def tweet-structure [{ :part 1 :id :date     :function #(date/parse-date %)         :error "Date problem"}
@@ -14,7 +15,7 @@
 (defn get-parts [text]
    (clojure.string/split text #" " 6))
 
-(defn parse-tweet [text]
+(defn parse-tweet-text [text]
   (let [parts (get-parts text)
         ret (transient {:value {} :message :none})]
     (if (>= (count parts) 6)
@@ -26,3 +27,15 @@
               {:value nil :message (parse-map :error)}))
           (assoc ret :message "Success")))
       {:value nil :message "Not enought parts"})))
+
+(defn merge-date-and-time [date time]
+  (clj-time/date-time (clj-time/year date) (clj-time/month date) (clj-time/day date)
+                      (clj-time/hour time) (clj-time/minute time) (clj-time/sec time)))
+
+(defn infer-end-date [map]
+  (let [start ])
+  {assoc map :end
+   (clj-time/plus  (map :start) (clj-time/minutes (map :duration)))
+   })
+
+(parse-tweet-text "@nuotl 1/3/2013 08:00 5h ")
