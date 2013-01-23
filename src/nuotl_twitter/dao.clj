@@ -10,11 +10,13 @@
 (defn get-areas []
   (mc/find-maps "area" {}))
 
-(defn- split-event [event]
-  {:event (assoc event :tweeter ((event :tweeter) :_id)) :tweeter (event :tweeter)}
-  )
-
 (defn add-event [event]
-  (let [components (split-event event)]
-    (mc/save "event" (components :event))
-    (mc/save "tweeter" (components :tweeter))))
+  (mc/save "event" event))
+
+(defn get-tweeter [id]
+  (mc/find-map-by-id "tweeter" id))
+
+(defn add-tweeter [tweeter approved?]
+  (if approved?
+    (mc/save "tweeter" (assoc tweeter :approved "Y"))
+    (mc/save "tweeter" (assoc tweeter :approved "N"))))

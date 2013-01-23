@@ -31,17 +31,17 @@ public class ClojureStatusListener implements UserStreamListener {
         }
         PersistentVector tags = PersistentVector.create(hashtagList);
         PersistentVector urls = PersistentVector.create(urlMaps);
-        PersistentHashMap user = PersistentHashMap.create(Keyword.intern("id"),
+        PersistentHashMap user = PersistentHashMap.create(Keyword.intern("_id"),
                                                           status.getUser().getId(),
                                                           Keyword.intern("name"),
                                                           status.getUser().getScreenName(),
                                                           Keyword.intern("display-name"),
                                                           status.getUser().getName());
         PersistentHashMap map = PersistentHashMap.create(
-                                                         Keyword.intern("id"), status.getId(),
+                                                         Keyword.intern("_id"), status.getId(),
                                                          Keyword.intern("text"), status.getText(),
-                                                         Keyword.intern("user"), user,
-                                                         Keyword.intern("hashtags"), tags,
+                                                         Keyword.intern("tweeter"), user,
+                                                         Keyword.intern("tags"), tags,
                                                          Keyword.intern("urls"), urls);
         this.statusFunction.invoke(map);
     }
