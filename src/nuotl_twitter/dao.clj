@@ -3,6 +3,10 @@
             [monger.joda-time]
             ))
 
+(defn add-feature []
+  (mc/save "feature" )
+  )
+
 (defn get-areas []
   (mc/find-maps "area" {}))
 
