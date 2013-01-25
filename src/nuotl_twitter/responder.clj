@@ -1,13 +1,13 @@
 (ns nuotl-twitter.responder)
 
 (def messages {
-               :success "Success!"
-               :unapproved "Unapproved"
-               :not-enough-words "Not enough words"
-               :date "Date"
-               :time "Time"
-               :duration "Duration"
-               :area "Area"
+               :success "Thanks! Your event tweet was successful."
+               :unapproved "I'm afraid you are not yet authorized to use this service."
+               :not-enough-words "Your event tweet doesn't have enough parts to be valid."
+               :date "Sorry, I can't understand the date."
+               :time "Sorry, I can't understand the time."
+               :duration "Sorry, I can't understand the area."
+               :area "Sorry, I can't understand the area code."
                })
 
 (defn- tweet-url [user-id tweet-id]
