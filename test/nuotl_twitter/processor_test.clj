@@ -1,4 +1,4 @@
-(ns nuotl-twitter.processer-test
+(ns nuotl-twitter.processor-test
   (:use [midje.sweet])
   (:require [nuotl-twitter.processor :as p]
             [nuotl-twitter.dao :as dao]
