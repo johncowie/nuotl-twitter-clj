@@ -12,6 +12,7 @@
                  [clj-time "0.4.4"]
                  [cheshire "5.0.0"]
                  [com.novemberain/monger "1.4.2"]
+                 [org.clojure/tools.logging "0.2.3"]
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]
