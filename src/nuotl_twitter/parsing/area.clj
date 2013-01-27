@@ -1,12 +1,7 @@
-(ns nuotl-twitter.parsing.area)
-
-(def areas
-  {
-   :n {:name "North London" :region :london}
-   :cf {:name "Cardiff" :region :wales}
-   }
+(ns nuotl-twitter.parsing.area
+  (:require [nuotl-twitter.dao :as dao])
   )
 
 (defn parse-area [string]
-  (let [id (keyword (clojure.string/lower-case string))]
-    (if (contains? areas id) id nil)))
+  (let [id (clojure.string/lower-case string)]
+    (if (some #{id} (dao/get-area-ids)) (keyword id) nil)))

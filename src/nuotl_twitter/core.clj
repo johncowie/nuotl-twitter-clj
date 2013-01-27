@@ -3,7 +3,7 @@
   (:require [cheshire.core :as j]
             [nuotl-twitter.processor :as p]
             [nuotl-twitter.responder :as r]
-            [monger.core :as mg])
+            [nuotl-twitter.dao :as dao])
   (:gen-class))
 
 (defn configuration [file]
@@ -19,15 +19,14 @@
                      (fn [tw cd]  (reply-to-tweet twitter tw cd))
                      %
                      (p/process-tweet % id)))  ; status
-   #(println %) ; deletion
+   #(do (println (format "DELETING: %s" %)) (dao/remove-event %)) ; deletion
    #(println %) ; exception
    ))
 
 (defn -main [& args]
   (let [props (nth args 0)
         db (if (> (count args) 1) (nth args 1) "nuotl")]
-    (mg/connect!)
-    (mg/set-db! (mg/get-db db))
+    (dao/connect-to-db db)
     (let [config (configuration props)]
       (let [stream (. (twitter4j.TwitterStreamFactory. config) (getInstance))
             twitter (. (twitter4j.TwitterFactory. config) (getInstance))]
