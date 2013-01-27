@@ -1,9 +1,12 @@
 (ns nuotl-twitter.parsing.tweet-test
   (:use [midje.sweet])
   (:require [nuotl-twitter.parsing.tweet :as p]
-            [clj-time.core :as t]))
+            [clj-time.core :as t]
+            [nuotl-twitter.dao :as dao]
+            ))
 
 (facts
+ (against-background (dao/get-area-ids) => '("n"))
  (p/parse-tweet "@nuotl") => {:error :not-enough-words}
  (p/parse-tweet "@nuotl X X X X TEXT") => {:error :date}
  (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") => {:error :time}
