@@ -2,8 +2,7 @@
   (:use [midje.sweet])
   (:require [nuotl-twitter.parsing.tweet :as p]
             [clj-time.core :as t]
-            [nuotl-twitter.dao :as dao]
-            ))
+            [nuotl-twitter.dao :as dao]))
 
 (facts
  (against-background (dao/get-area-ids) => '("n"))
@@ -16,4 +15,8 @@
                                                      :end (t/date-time 2013 2 1 11 0 0)
                                                      :area :n
                                                      :text "TEXT"}
+ (p/parse-tweet "@NUOTL 20/4/2013 8AM 3H N TEXT") => {:start (t/date-time 2013 4 20 8 0 0)
+                                                      :end (t/date-time 2013 4 20 11 0 0)
+                                                      :area :n
+                                                      :text "TEXT"}
  )

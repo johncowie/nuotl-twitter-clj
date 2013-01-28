@@ -14,4 +14,7 @@
  (dur/parse-duration "1.23d") => 1772
  (dur/parse-duration "0m") => nil
  (dur/parse-duration "0.1m") => 1
+ (dur/parse-duration "2H") => 120
+ (dur/parse-duration "0.1D") => 144
+ (dur/parse-duration "14M") => 14
  )
