@@ -5,7 +5,7 @@
             [nuotl-twitter.dao :as dao]))
 
 (facts
- (against-background (dao/get-area-ids) => '("n"))
+ (against-background (dao/get-area-ids) => '("n" "cf"))
  (p/parse-tweet "@nuotl") => {:error :not-enough-words}
  (p/parse-tweet "@nuotl X X X X TEXT") => {:error :date}
  (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") => {:error :time}
@@ -19,4 +19,9 @@
                                                       :end (t/date-time 2013 4 20 11 0 0)
                                                       :area :n
                                                       :text "TEXT"}
+ (p/parse-tweet "@nuotl 20/4/2013 15PM 8H CF TEXT") => {:start (t/date-time 2013 4 20 15 0 0)
+                                                        :end (t/date-time 2013 4 20 23 0 0)
+                                                        :area :cf
+                                                        :text "TEXT"
+                                                        }
  )

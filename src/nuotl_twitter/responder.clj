@@ -6,7 +6,7 @@
                :not-enough-words "Your event tweet doesn't have enough parts to be valid."
                :date "Sorry, I can't understand the date."
                :time "Sorry, I can't understand the time."
-               :duration "Sorry, I can't understand the area."
+               :duration "Sorry, I can't understand the duration."
                :area "Sorry, I can't understand the area code."
                })
 
