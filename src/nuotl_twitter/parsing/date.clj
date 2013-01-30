@@ -50,15 +50,17 @@
     nil
   ))
 
-(defn- parse-numeric-date [val]
+(defn- parse-date-with-format [val format]
   (try
-    (f/parse (f/formatter "dd/MM/yyyy") val)
+    (f/parse (f/formatter format) val)
     (catch Exception e nil)))
+
 
 (def parsers [
               parse-relative-word
               parse-day-name
-              parse-numeric-date
+              #(parse-date-with-format % "dd/MM/yyyy")
+              #(parse-date-with-format % "dd.MM.yyyy")
               ])
 
 (defn parse-date [val]

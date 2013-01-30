@@ -24,4 +24,5 @@
  (parser/parse-date "wed") => (matches-date? 2013 1 30)
  (parser/parse-date "t") => nil
  (parser/parse-date "SAT") => (matches-date? 2013 2 2)
+ (parser/parse-date "25.12.2012") => (matches-date? 2012 12 25)
  )
