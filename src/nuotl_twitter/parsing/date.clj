@@ -4,12 +4,12 @@
             [clojure.string :as s]
             ))
 
-(defn today [] (t/now))
+(defn- today [] (t/now))
 
-(defn tomorrow []
+(defn- tomorrow []
   (t/plus (today) (t/days 1)))
 
-(defn day-id {
+(def day-ids {
               "monday" 1
               "tuesday" 2
               "wednesday" 3
@@ -19,10 +19,55 @@
               "sunday" 7
               })
 
-(defn parse-date [val]
+(defn- get-day-number [dstr]
+  (if (< (count dstr) 2)
+    nil
+    (loop [i 0]
+      (if (< i (count day-ids))
+        (let [id (nth (keys day-ids) i)]
+          (if (nil? (re-matches (re-pattern (str (s/lower-case dstr) ".*")) id))
+            (recur (inc i))
+            (day-ids id)
+            ))
+        nil))))
+
+(defn- get-relative-date [number]
+  (loop [t (tomorrow)]
+    (if (= (t/day-of-week t) number)
+      t
+      (recur (t/plus t (t/days 1))))))
+
+(defn- parse-day-name [daystr]
+  (let [daynum (get-day-number daystr)]
+    (if (nil? daynum)
+      nil
+      (get-relative-date daynum))))
+
+(defn- parse-relative-word [val]
   (case (s/lower-case val)
     ("today" "2day") (today)
     ("tomorrow" "2moro" "2morro" "tomoro" "2morrow" "2morow") (tomorrow)
-    (try
-      (f/parse (f/formatter "dd/MM/yyyy") val)
-      (catch Exception e nil))))
+    nil
+  ))
+
+(defn- parse-numeric-date [val]
+  (try
+    (f/parse (f/formatter "dd/MM/yyyy") val)
+    (catch Exception e nil)))
+
+(def parsers [
+              parse-relative-word
+              parse-day-name
+              parse-numeric-date
+              ])
+
+(defn parse-date [val]
+  (loop [i 0]
+    (if (< i (count parsers))
+      (let [d ((parsers i) val)]
+        (if (nil? d)
+          (recur (inc i))
+          d
+          ))
+      nil
+      )))

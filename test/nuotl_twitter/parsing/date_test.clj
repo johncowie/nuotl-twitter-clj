@@ -19,4 +19,9 @@
  (parser/parse-date "2/1/2013") => (matches-date? 2013 1 2)
  (parser/parse-date "today") => (matches-date? 2013 1 28)
  (parser/parse-date "tomorrow") => (matches-date? 2013 1 29)
+ (parser/parse-date "monday") => (matches-date? 2013 2 4)
+ (parser/parse-date "Tuesday") => (matches-date? 2013 1 29)
+ (parser/parse-date "wed") => (matches-date? 2013 1 30)
+ (parser/parse-date "t") => nil
+ (parser/parse-date "SAT") => (matches-date? 2013 2 2)
  )
