@@ -3,29 +3,41 @@
             [nuotl-twitter.dao :as dao]
             ))
 
-(defn id-approved? [id]
+(defn- id-approved? [id]
   (if-let [tweeter (dao/get-tweeter id)]
     (= (tweeter :approved) "Y")
     false))
 
-(defn html-url [display expanded]
+(defn- html-url [display expanded]
   (format "<a href=\"%s\">%s</a>" expanded display))
 
-(defn fix-text [text, url]
+(defn- fix-text [text, url]
   (clojure.string/replace
    text
    (re-pattern (url :url))
    (html-url (url :display-url) (url :expanded-url))))
 
-(defn swap-in-urls [tweet]
+(defn- swap-in-urls [tweet]
   (let [urls (tweet :urls)]
     (loop [i 0 text (tweet :text)]
       (if (< i (count urls))
         (recur (inc i) (fix-text text (urls i)))
         (assoc tweet :text text)))))
 
-(defn process-tweet-text [tweet]
+(defn- process-tweet-text [tweet]
   (merge tweet (tweet-parser/parse-tweet (tweet :text))))
+
+(defn- add-unapproved [tweet myid]
+  (dao/add-tweeter (tweet :tweeter) false))
+
+(defn- not-listener? [tweet myid]
+  (not (= ((tweet :tweeter) :_id) myid)))
+
+(defn- tweet-approved? [tweet myid])
+
+(defn- parsed-tweet? [tweet myid])
+
+(defn- add-approved-and-tweet [tweet & args])
 
 (defn process-tweet [tweet listener-id]
   (if-not (= ((tweet :tweeter) :_id) listener-id)
