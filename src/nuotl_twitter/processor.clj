@@ -33,11 +33,15 @@
 (defn- not-listener? [tweet myid]
   (not (= ((tweet :tweeter) :_id) myid)))
 
-(defn- tweet-approved? [tweet myid])
+(defn- tweet-approved? [tweet myid]
+  (id-approved? ((tweet :tweeter) :_id)))
 
-(defn- parsed-tweet? [tweet myid])
+(defn- parsed-tweet? [tweet myid]
+  (not (contains? (process-tweet-text tweet) :error)))
 
-(defn- add-approved-and-tweet [tweet & args])
+(defn- add-approved-and-tweet [tweet & args]
+
+  )
 
 (defn process-tweet [tweet listener-id]
   (if-not (= ((tweet :tweeter) :_id) listener-id)
