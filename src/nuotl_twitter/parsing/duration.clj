@@ -1,6 +1,6 @@
 (ns nuotl-twitter.parsing.duration
-  (:require [clojure.string :as s])
-  )
+  (:require [clojure.string :as s]
+            ))
 
 (defn ceil [number]
   (int (Math/ceil (double number))))
@@ -14,6 +14,6 @@
         (let [number (read-string numb)]
           (if (and (number? number) (pos? number))
             (ceil  (* number multiplier))
-            nil
+            (throw (Exception. (str :duration-error)))
             ))
-        nil))))
+        (throw (Exception. (str :duration-error)))))))

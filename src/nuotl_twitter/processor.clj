@@ -3,6 +3,11 @@
             [nuotl-twitter.dao :as dao]
             ))
 
+(def listener-id (atom -1))
+
+(defn set-listener-id! [id]
+  (swap! listener-id (fn [%] id)))
+
 (defn- id-approved? [id]
   (if-let [tweeter (dao/get-tweeter id)]
     (= (tweeter :approved) "Y")
@@ -24,41 +29,35 @@
         (recur (inc i) (fix-text text (urls i)))
         (assoc tweet :text text)))))
 
+(defn- check-if-listener [tweet]
+  (if (= ((tweet :tweeter) :_id) @listener-id)
+    (do
+      (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
+      (throw (Exception. (str :is-me)))
+      )))
+
+(defn- check-approval [tweet]
+  (if-not (id-approved? ((tweet :tweeter) :_id))
+    (do
+      (dao/add-tweeter (tweet :tweeter) false)
+      (throw (Exception. (str :unapproved)))
+        )))
+
 (defn- process-tweet-text [tweet]
-  (merge tweet (tweet-parser/parse-tweet (tweet :text))))
+  (let [parsed-tweet (merge tweet (tweet-parser/parse-tweet (tweet :text)))]
+    (dao/add-tweeter (tweet :tweeter) true)
+    (dao/add-event
+     (assoc
+         (dissoc (swap-in-urls parsed-tweet) :urls :in-response-to)
+       :tweeter ((tweet :tweeter) :_id)))))
 
-(defn- add-unapproved [tweet myid]
-  (dao/add-tweeter (tweet :tweeter) false))
+(def process-order [
+                    check-if-listener
+                    check-approval
+                    process-tweet-text
+                    ])
 
-(defn- not-listener? [tweet myid]
-  (not (= ((tweet :tweeter) :_id) myid)))
-
-(defn- tweet-approved? [tweet myid]
-  (id-approved? ((tweet :tweeter) :_id)))
-
-(defn- parsed-tweet? [tweet myid]
-  (not (contains? (process-tweet-text tweet) :error)))
-
-(defn- add-approved-and-tweet [tweet & args]
-
-  )
-
-(defn process-tweet [tweet listener-id]
-  (if-not (= ((tweet :tweeter) :_id) listener-id)
-    (if (not (id-approved? ((tweet :tweeter) :_id)))
-      (do (dao/add-tweeter (tweet :tweeter) false)
-          :unapproved)
-      (let [parsed-tweet (process-tweet-text tweet)]
-        (if (contains? parsed-tweet :error)
-          (parsed-tweet :error)
-          (do
-            (dao/add-tweeter (tweet :tweeter) true)
-            (dao/add-event
-             (assoc
-                 (dissoc (swap-in-urls parsed-tweet) :urls)
-               :tweeter
-               ((tweet :tweeter) :_id)))
-            :success
-            ))))
-     :from-listener-so-ignored
+(defn process-tweet [tweet]
+  (doseq [func process-order]
+    (func tweet)
     ))

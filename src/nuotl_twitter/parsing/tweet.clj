@@ -23,9 +23,9 @@
           (let [parse-map (tweet-structure i)]
             (if-let [val ((parse-map :function) (parts (parse-map :part)))]
               (recur (inc i) (assoc ret (parse-map :id) val))
-              {:error (parse-map :id)}))
+              ))
           (assoc ret :text (parts 5))))
-      {:error :not-enough-words})))
+      (throw (Exception. (str :too-short-error))))))
 
 (defn merge-date-and-time [date time]
   (clj-time/date-time (clj-time/year date) (clj-time/month date) (clj-time/day date)
@@ -38,7 +38,4 @@
       )))
 
 (defn parse-tweet [text]
-  (let [ret-map (parse-tweet-text text)]
-    (if (nil? (ret-map :error))
-      (infer-end-date ret-map)
-      ret-map)))
+  (infer-end-date (parse-tweet-text text)))

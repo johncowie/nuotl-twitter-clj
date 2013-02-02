@@ -1,14 +1,5 @@
-(ns nuotl-twitter.responder)
-
-(def messages {
-               :success "Thanks! Your event tweet was successful."
-               :unapproved "I'm afraid you are not yet authorized to use this service."
-               :not-enough-words "Your event tweet doesn't have enough parts to be valid."
-               :date "Sorry, I can't understand the date."
-               :time "Sorry, I can't understand the time."
-               :duration "Sorry, I can't understand the duration."
-               :area "Sorry, I can't understand the area code."
-               })
+(ns nuotl-twitter.responder
+  (:require [nuotl-twitter.messages :as m]))
 
 (defn- tweet-url [user-id tweet-id]
   (format "http://twitter.com/%s/status/%s" user-id tweet-id))
@@ -18,6 +9,6 @@
     (let [name (:name (:tweeter tweet))
           tweet-id (:_id tweet)
           user-id (:_id (:tweeter tweet))
-          text (messages code)]
+          text (m/get-message code)]
       (replyfn tweet-id
                (format "@%s %s %s" name text (tweet-url user-id tweet-id))))))

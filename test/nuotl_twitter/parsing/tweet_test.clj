@@ -6,11 +6,11 @@
 
 (facts
  (against-background (dao/get-area-ids) => '("n" "cf"))
- (p/parse-tweet "@nuotl") => {:error :not-enough-words}
- (p/parse-tweet "@nuotl X X X X TEXT") => {:error :date}
- (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") => {:error :time}
- (p/parse-tweet "@nuotl 1/2/2013 8am X X TEXT") => {:error :duration}
- (p/parse-tweet "@nuotl 1/2/2013 8am 3h X TEXT") => {:error :area}
+ (p/parse-tweet "@nuotl") => (throws Exception ":too-short-error")
+ (p/parse-tweet "@nuotl X X X X TEXT") => (throws Exception ":date-error")
+ (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") => (throws Exception ":time-error")
+ (p/parse-tweet "@nuotl 1/2/2013 8am X X TEXT") => (throws Exception ":duration-error")
+ (p/parse-tweet "@nuotl 1/2/2013 8am 3h X TEXT") => (throws Exception ":area-error")
  (p/parse-tweet "@nuotl 1/2/2013 8am 3h N TEXT") => {:start (t/date-time 2013 2 1 8 0 0)
                                                      :end (t/date-time 2013 2 1 11 0 0)
                                                      :area :n

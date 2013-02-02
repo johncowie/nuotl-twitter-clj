@@ -71,5 +71,5 @@
           (recur (inc i))
           d
           ))
-      nil
+      (throw (Exception. (str :date-error)))
       )))

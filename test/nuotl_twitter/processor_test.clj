@@ -14,7 +14,9 @@
    :tweeter (create-tweeter tweeter_id)
    :hashtags ["environment" "cuts"]
    :urls [{:url "http://ty.co/asdasd" :display-url "bbc.co.uk"
-   :expanded-url "http://bbc.co.uk" :start 44 :end 54}]})
+           :expanded-url "http://bbc.co.uk" :start 44 :end 54}]
+   :in-response-to 2345
+   })
 
 
 (facts
@@ -30,25 +32,28 @@
                   :tweeter 22
                   :hashtags ["environment" "cuts"]
                   }) => anything)
- (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h N Hello World" 22) 77) => :success
+ (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h N Hello World" 22)) => nil ;success
  )
 
 (facts
  (against-background
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "N")
   (dao/add-tweeter (create-tweeter 22) false) => anything)
- (p/process-tweet (create-tweet "@nuotl blah blah blah" 22) 77) => :unapproved
+ (p/process-tweet (create-tweet "@nuotl blah blah blah" 22))
+      => (throws Exception (str :unapproved))
  )
 
 (facts
- (p/process-tweet (create-tweet "@nuotl blah blah blah" 77) 77) => :from-listener-so-ignored
+ (p/set-listener-id! 99)
+ (p/process-tweet (create-tweet "@nuotl blah blah blah" 99)) => (throws Exception (str :is-me))
+ (provided (dao/add-reply-id 1234 2345) => {:_id 1234 :event-id 2345})
  )
 
 (facts
  (against-background
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "Y")
   (dao/add-tweeter (create-tweeter 22) true) => anything)
- (p/process-tweet (create-tweet "@nuotl blah blah blah blah blah blahh" 22) 77) => :date
+ (p/process-tweet (create-tweet "@nuotl blah blah blah blah blah blahh" 22)) => (throws Exception (str :date-error))
  )
 
 (facts
@@ -56,5 +61,5 @@
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "Y")
   (dao/add-tweeter (create-tweeter 22) true) => anything
   (dao/get-area-ids) => '("n"))
- (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h X Hello World" 22) 77) => :area
+ (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h X Hello World" 22)) => (throws Exception (str :area-error))
  )

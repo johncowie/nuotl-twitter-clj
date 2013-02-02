@@ -13,12 +13,23 @@
   (let [status (. (twitter4j.StatusUpdate. message) (inReplyToStatusId tweet-id))]
     (. twitter (updateStatus status))))
 
-(defn listener [id twitter]
+(defn- get-reply-fn [twitter]
+  (fn [tweet-id message]
+    (reply-to-tweet twitter tweet-id message)))
+
+(defn- handle-tweet [tweet twitter]
+  (try
+    (do
+      (p/process-tweet tweet)
+      (r/respond (get-reply-fn twitter) tweet :success))
+    (catch Exception e
+      (let [error-code (read-string (. e (getMessage)))]
+        (r/respond (get-reply-fn twitter) tweet error-code)
+        ))))
+
+(defn listener [twitter]
   (ClojureStatusListener.
-   #(do (println %) (r/respond
-                     (fn [tw cd]  (reply-to-tweet twitter tw cd))
-                     %
-                     (p/process-tweet % id)))  ; status
+   #(do (println %) (handle-tweet %))  ; status
    #(do (println (format "DELETING: %s" %)) (dao/remove-event %)) ; deletion
    #(println %) ; exception
    ))
@@ -29,6 +40,9 @@
     (dao/connect-to-db db)
     (let [config (configuration props)]
       (let [stream (. (twitter4j.TwitterStreamFactory. config) (getInstance))
-            twitter (. (twitter4j.TwitterFactory. config) (getInstance))]
-        (. stream (addListener (listener (. stream (getId)) twitter)))
+            twitter (. (twitter4j.TwitterFactory. config) (getInstance))
+            twitter-id (. stream (getId))
+            ]
+        (p/set-listener-id! twitter-id)
+        (. stream (addListener (listener twitter)))
         (. stream (user))))))

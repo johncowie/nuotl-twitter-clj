@@ -15,6 +15,9 @@
 (defn add-event [event]
   (mc/save "event" event))
 
+(defn add-reply-id [reply-id event-tweet-id]
+  (mc/save "replies" {:_id reply-id :event-id event-tweet-id}))
+
 (defn remove-event [id]
   (mc/remove-by-id "event" id))
 

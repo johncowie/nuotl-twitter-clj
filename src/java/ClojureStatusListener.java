@@ -42,7 +42,9 @@ public class ClojureStatusListener implements UserStreamListener {
                                                          Keyword.intern("text"), status.getText(),
                                                          Keyword.intern("tweeter"), user,
                                                          Keyword.intern("tags"), tags,
-                                                         Keyword.intern("urls"), urls);
+                                                         Keyword.intern("urls"), urls,
+                                                         Keyword.intern("in-response-to"), status.getInReplyToStatusId()
+                                                         );
         this.statusFunction.invoke(map);
     }
     @Override
