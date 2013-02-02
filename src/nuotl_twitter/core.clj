@@ -13,6 +13,9 @@
   (let [status (. (twitter4j.StatusUpdate. message) (inReplyToStatusId tweet-id))]
     (. twitter (updateStatus status))))
 
+(defn- delete-tweet [twitter id]
+  (. twitter (destroyStatus id)))
+
 (defn- get-reply-fn [twitter]
   (fn [tweet-id message]
     (reply-to-tweet twitter tweet-id message)))
