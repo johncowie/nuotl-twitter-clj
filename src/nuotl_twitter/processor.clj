@@ -3,11 +3,6 @@
             [nuotl-twitter.dao :as dao]
             ))
 
-(def listener-id (atom -1))
-
-(defn set-listener-id! [id]
-  (swap! listener-id (fn [%] id)))
-
 (defn- id-approved? [id]
   (if-let [tweeter (dao/get-tweeter id)]
     (= (tweeter :approved) "Y")
@@ -29,13 +24,6 @@
         (recur (inc i) (fix-text text (urls i)))
         (assoc tweet :text text)))))
 
-(defn- check-if-listener [tweet]
-  (if (= ((tweet :tweeter) :_id) @listener-id)
-    (do
-      (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
-      (throw (Exception. (str :is-me)))
-      )))
-
 (defn- check-approval [tweet]
   (if-not (id-approved? ((tweet :tweeter) :_id))
     (do
@@ -52,7 +40,7 @@
        :tweeter ((tweet :tweeter) :_id)))))
 
 (def process-order [
-                    check-if-listener
+                    ;check-if-listener
                     check-approval
                     process-tweet-text
                     ])

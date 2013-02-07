@@ -14,6 +14,6 @@
  (against-background (m/get-message :success) => "SUCCESS")
  (r/respond reply-fn (create-tweet 77 "derek" 44) :success)
  => {77 "@derek SUCCESS http://twitter.com/44/status/77"}
- (r/respond reply-fn (create-tweet 89 "bobgeldof" 61) :from-listener-so-ignored)
+ (r/respond reply-fn (create-tweet 89 "bobgeldof" 61) :is-me)
  => nil
  )

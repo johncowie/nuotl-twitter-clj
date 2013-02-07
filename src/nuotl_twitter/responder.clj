@@ -5,7 +5,7 @@
   (format "http://twitter.com/%s/status/%s" user-id tweet-id))
 
 (defn respond [replyfn tweet code]
-  (if-not (or (nil? code) (= code :from-listener-so-ignored))
+  (if-not (or (nil? code) (= code :is-me))
     (let [name (:name (:tweeter tweet))
           tweet-id (:_id tweet)
           user-id (:_id (:tweeter tweet))

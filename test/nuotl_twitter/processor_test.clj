@@ -44,12 +44,6 @@
  )
 
 (facts
- (p/set-listener-id! 99)
- (p/process-tweet (create-tweet "@nuotl blah blah blah" 99)) => (throws Exception (str :is-me))
- (provided (dao/add-reply-id 1234 2345) => {:_id 1234 :event-id 2345})
- )
-
-(facts
  (against-background
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "Y")
   (dao/add-tweeter (create-tweeter 22) true) => anything)

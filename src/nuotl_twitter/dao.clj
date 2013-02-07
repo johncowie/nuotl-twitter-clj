@@ -16,7 +16,13 @@
   (mc/save "event" event))
 
 (defn add-reply-id [reply-id event-tweet-id]
-  (mc/save "replies" {:_id reply-id :event-id event-tweet-id}))
+  (mc/save "reply" {:_id reply-id :event-id event-tweet-id}))
+
+(defn get-reply-ids [event-tweet-id]
+  (mc/find-maps "reply" {:event-id event-tweet-id}))
+
+(defn remove-reply-id [reply-id]
+  (mc/remove-by-id "reply" reply-id))
 
 (defn remove-event [id]
   (mc/remove-by-id "event" id))

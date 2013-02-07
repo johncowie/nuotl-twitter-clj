@@ -54,7 +54,8 @@ public class ClojureStatusListener implements UserStreamListener {
 
     @Override
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-        this.deleteFunction.invoke(statusDeletionNotice.getStatusId());
+        this.deleteFunction.invoke(statusDeletionNotice.getStatusId(),
+                                   statusDeletionNotice.getUserId());
     }
 
     @Override

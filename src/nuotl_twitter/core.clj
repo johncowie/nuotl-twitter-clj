@@ -13,27 +13,38 @@
   (let [status (. (twitter4j.StatusUpdate. message) (inReplyToStatusId tweet-id))]
     (. twitter (updateStatus status))))
 
-(defn- delete-tweet [twitter id]
-  (. twitter (destroyStatus id)))
+(defn- handle-delete [tweet-id user-id twitter twitter-id]
+  (if (not= twitter-id user-id)
+    (do
+      (println (format "DELETING: %s" tweet-id))
+      (dao/remove-event tweet-id)
+      (doseq [r (dao/get-reply-ids tweet-id)]
+        (. twitter (destroyStatus (r :_id)))
+        (dao/remove-reply-id (r :_id))
+        ))))
 
 (defn- get-reply-fn [twitter]
   (fn [tweet-id message]
     (reply-to-tweet twitter tweet-id message)))
 
-(defn- handle-tweet [tweet twitter]
-  (try
-    (do
-      (p/process-tweet tweet)
-      (r/respond (get-reply-fn twitter) tweet :success))
-    (catch Exception e
-      (let [error-code (read-string (. e (getMessage)))]
-        (r/respond (get-reply-fn twitter) tweet error-code)
-        ))))
+(defn- handle-tweet [tweet twitter twitter-id]
+  (println tweet)
+  (if (not= ((tweet :tweeter) :_id) twitter-id)
+    (try
+      (do
+        (p/process-tweet tweet)
+        (r/respond (get-reply-fn twitter) tweet :success))
+      (catch Exception e
+        (let [error-code (read-string (. e (getMessage)))]
+          (r/respond (get-reply-fn twitter) tweet error-code)
+          )))
+     (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
+    ))
 
-(defn listener [twitter]
+(defn listener [twitter twitter-id]
   (ClojureStatusListener.
-   #(do (println %) (handle-tweet %))  ; status
-   #(do (println (format "DELETING: %s" %)) (dao/remove-event %)) ; deletion
+   #(handle-tweet % twitter twitter-id)  ; status
+   #(handle-delete %1 %2 twitter twitter-id) ; deletion
    #(println %) ; exception
    ))
 
@@ -46,6 +57,5 @@
             twitter (. (twitter4j.TwitterFactory. config) (getInstance))
             twitter-id (. stream (getId))
             ]
-        (p/set-listener-id! twitter-id)
-        (. stream (addListener (listener twitter)))
+        (. stream (addListener (listener twitter twitter-id)))
         (. stream (user))))))
