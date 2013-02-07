@@ -3,7 +3,10 @@
   (:require [cheshire.core :as j]
             [nuotl-twitter.processor :as p]
             [nuotl-twitter.responder :as r]
-            [nuotl-twitter.dao :as dao])
+            [nuotl-twitter.dao :as dao]
+            [compojure.core :refer [defroutes GET]]
+            [compojure.handler :refer [site]]
+            [ring.adapter.jetty :as jetty])
   (:gen-class))
 
 (defn configuration [file]
@@ -48,7 +51,13 @@
    #(println %) ; exception
    ))
 
-(defn -main [& args]
+(defroutes app-routes
+  (GET "/" [] "PING"))
+
+(def app
+  (site app-routes))
+
+(defn start-twitter [args]
   (let [props (nth args 0)
         db (if (> (count args) 1) (nth args 1) "nuotl")]
     (dao/connect-to-db db)
@@ -59,3 +68,8 @@
             ]
         (. stream (addListener (listener twitter twitter-id)))
         (. stream (user))))))
+
+(defn -main [& args]
+  (.start (Thread. #(jetty/run-jetty app {:port 5000})))
+  (start-twitter args)
+  )

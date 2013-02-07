@@ -13,6 +13,8 @@
                  [cheshire "5.0.0"]
                  [com.novemberain/monger "1.4.2"]
                  [org.clojure/tools.logging "0.2.3"]
+                 [compojure "1.1.3"]
+                 [ring/ring-jetty-adapter "1.1.4"]
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]
