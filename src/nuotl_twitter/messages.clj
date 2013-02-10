@@ -14,5 +14,5 @@
 (defn get-message [s]
   (if-let [message (messages s)]
     message
-    "Unknown error."
+    (format "No message for code [%s]" s)
     ))
