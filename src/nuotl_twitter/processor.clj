@@ -31,21 +31,19 @@
       (throw (Exception. (str :unapproved)))
         )))
 
-(defn- process-tweet-text [tweet]
-  (let [parsed-tweet (merge tweet (tweet-parser/parse-tweet (tweet :text)))]
-    (dao/add-tweeter (tweet :tweeter) true)
-    (dao/add-event
-     (assoc
-         (dissoc (swap-in-urls parsed-tweet) :urls :in-response-to)
-       :tweeter ((tweet :tweeter) :_id)))))
+(defn- clean-up-parsed-tweet [tweet parsed-tweet]
+  (assoc
+      (dissoc (swap-in-urls parsed-tweet) :tweeter :urls :in-response-to)
+      :tweeter ((tweet :tweeter) :_id)))
 
-(def process-order [
-                    ;check-if-listener
-                    check-approval
-                    process-tweet-text
-                    ])
+(defn- process-tweet-text [tweet]
+  (let [parsed-tweet (clean-up-parsed-tweet
+                      tweet (merge tweet (tweet-parser/parse-tweet (tweet :text))))]
+    (dao/add-tweeter (tweet :tweeter) true)
+    (dao/add-event parsed-tweet)
+    parsed-tweet
+    ))
 
 (defn process-tweet [tweet]
-  (doseq [func process-order]
-    (func tweet)
-    ))
+  (check-approval tweet)
+  (process-tweet-text tweet))

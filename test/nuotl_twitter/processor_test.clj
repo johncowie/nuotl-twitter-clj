@@ -33,8 +33,15 @@
                   :tweeter 22
                   :hashtags ["environment" "cuts"]
                   }) => anything)
- (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h N Hello World" 22)) => nil ;success
- )
+ (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h N Hello World" 22))
+ =>  {:_id 1234
+      :text "Hello World"
+      :start (t/date-time 2013 1 25 6 0 0)
+      :end (t/date-time 2013 1 25 9 0 0)
+      :area :n
+      :tweeter 22
+      :hashtags ["environment" "cuts"]
+      })
 
 (facts
  (against-background

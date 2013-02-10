@@ -35,14 +35,14 @@
   (if (not= ((tweet :tweeter) :_id) twitter-id)
     (try
       (do
-        (p/process-tweet tweet)
-        (println "SUCCESS")
-        (r/respond (get-reply-fn twitter) tweet :success))
+        (let [processed (p/process-tweet tweet)]
+          (println "SUCCESS")
+          (r/respond (get-reply-fn twitter) tweet :success (processed :start))))
       (catch Exception e
         (. e (printStackTrace))
         (let [error-code (read-string (. e (getMessage)))]
           (println (format "PROCESSING ERROR: %s" error-code))
-          (r/respond (get-reply-fn twitter) tweet error-code)
+          (r/respond (get-reply-fn twitter) tweet error-code nil)
           )))
      (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
     ))

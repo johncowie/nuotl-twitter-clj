@@ -9,16 +9,16 @@
   {tweet-id message})
 
 (defn create-tweet [tweet-id user-name user-id]
-  {:_id tweet-id :start (t/date-time 2013 3 2) :tweeter {:_id user-id :name user-name}})
+  {:_id tweet-id  :tweeter {:_id user-id :name user-name}})
 
 (facts
  (against-background
   (m/get-message :success) => "SUCCESS"
   (m/get-message :area-error) => "AREA-ERROR")
- (r/respond test-reply-fn (create-tweet 77 "derek" 44) :success)
+ (r/respond test-reply-fn (create-tweet 77 "derek" 44) :success (t/date-time 2013 3))
  => {77 "@derek SUCCESS http://nextupontheleft.org/events/2013/3#77"}
- (r/respond test-reply-fn (create-tweet 77 "derek" 44) :area-error)
+ (r/respond test-reply-fn (create-tweet 77 "derek" 44) :area-error nil)
  => {77 "@derek AREA-ERROR http://twitter.com/44/status/77"}
- (r/respond test-reply-fn (create-tweet 89 "bobgeldof" 61) :is-me)
+ (r/respond test-reply-fn (create-tweet 89 "bobgeldof" 61) :is-me nil)
  => nil
  )
