@@ -12,9 +12,13 @@
   {:_id tweet-id :start (t/date-time 2013 3 2) :tweeter {:_id user-id :name user-name}})
 
 (facts
- (against-background (m/get-message :success) => "SUCCESS")
+ (against-background
+  (m/get-message :success) => "SUCCESS"
+  (m/get-message :area-error) => "AREA-ERROR")
  (r/respond test-reply-fn (create-tweet 77 "derek" 44) :success)
- => {77 "@derek SUCCESS http://nextupontheleft.org/events/3/2013#77"}
+ => {77 "@derek SUCCESS http://nextupontheleft.org/events/2013/3#77"}
+ (r/respond test-reply-fn (create-tweet 77 "derek" 44) :area-error)
+ => {77 "@derek AREA-ERROR http://twitter.com/44/status/77"}
  (r/respond test-reply-fn (create-tweet 89 "bobgeldof" 61) :is-me)
  => nil
  )
