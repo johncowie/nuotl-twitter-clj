@@ -5,7 +5,8 @@
             [nuotl-twitter.dao :as dao]))
 
 (facts
- (against-background (dao/get-area-ids) => '("n" "cf"))
+ (against-background (dao/get-area-ids) => '("n" "cf")
+                     (t/now) => (t/date-time 2013 1 1))
  (p/parse-tweet "@nuotl") => (throws Exception ":too-short-error")
  (p/parse-tweet "@nuotl X X X X TEXT") => (throws Exception ":date-error")
  (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") => (throws Exception ":time-error")
@@ -22,6 +23,6 @@
  (p/parse-tweet "@nuotl 20/4/2013 15PM 8H CF TEXT") => {:start (t/date-time 2013 4 20 15 0 0)
                                                         :end (t/date-time 2013 4 20 23 0 0)
                                                         :area :cf
-                                                        :text "TEXT"
-                                                        }
+                                                        :text "TEXT"}
+ (p/parse-tweet "@nuotl 31/12/2012 11PM 2H N TEXT") => (throws Exception ":in-past-error")
  )

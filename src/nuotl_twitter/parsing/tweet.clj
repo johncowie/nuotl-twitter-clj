@@ -37,5 +37,13 @@
       (dissoc (merge m {:start start :end end}) :date :time :duration)
       )))
 
+(defn check-if-in-past [m]
+  (if ( > (compare (clj-time/now) (m :start)) 0)
+    (throw (Exception. (str :in-past-error)))
+    m
+    ))
+
 (defn parse-tweet [text]
-  (infer-end-date (parse-tweet-text text)))
+  (check-if-in-past
+   (infer-end-date
+    (parse-tweet-text text))))
