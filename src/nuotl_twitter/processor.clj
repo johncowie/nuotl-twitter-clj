@@ -28,7 +28,7 @@
   (if-not (id-approved? ((tweet :tweeter) :_id))
     (do
       (dao/add-tweeter (tweet :tweeter) false)
-      (throw (Exception. (str :unapproved)))
+      (throw (ProcessingException. :unapproved))
         )))
 
 (defn- clean-up-parsed-tweet [tweet parsed-tweet]

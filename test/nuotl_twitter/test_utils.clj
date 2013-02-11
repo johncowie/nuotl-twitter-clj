@@ -3,4 +3,4 @@
 
 (defn exception-with-code [code]
   (fn [e]
-    (= (. e (getErrorCode)) code)))
+    (and (= ProcessingException (class e)) (= (. e (getErrorCode)) code))))

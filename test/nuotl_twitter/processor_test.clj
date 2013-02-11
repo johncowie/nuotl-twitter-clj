@@ -2,6 +2,7 @@
   (:use [midje.sweet])
   (:require [nuotl-twitter.processor :as p]
             [nuotl-twitter.dao :as dao]
+            [nuotl-twitter.test-utils :refer [exception-with-code]]
             [clj-time.core :as t]
             ))
 
@@ -48,14 +49,15 @@
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "N")
   (dao/add-tweeter (create-tweeter 22) false) => anything)
  (p/process-tweet (create-tweet "@nuotl blah blah blah" 22))
-      => (throws Exception (str :unapproved))
+ => (throws (exception-with-code :unapproved))
  )
 
 (facts
  (against-background
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "Y")
   (dao/add-tweeter (create-tweeter 22) true) => anything)
- (p/process-tweet (create-tweet "@nuotl blah blah blah blah blah blahh" 22)) => (throws Exception (str :date-error))
+ (p/process-tweet (create-tweet "@nuotl blah blah blah blah blah blahh" 22))
+ => (throws (exception-with-code :date-error))
  )
 
 (facts
@@ -63,7 +65,8 @@
   (dao/get-tweeter 22) => (assoc (create-tweeter 22) :approved "Y")
   (dao/add-tweeter (create-tweeter 22) true) => anything
   (dao/get-area-ids) => '("n"))
- (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h X Hello World" 22)) => (throws Exception (str :area-error))
+ (p/process-tweet (create-tweet "@nuotl 25/1/2013 6am 3h X Hello World" 22))
+ => (throws (exception-with-code :area-error))
  )
 
 (facts
@@ -73,5 +76,6 @@
   (dao/add-tweeter (create-tweeter 22) true) => anything
   (t/now) => (t/date-time 2013 1 1 10 0 0)
   (dao/add-event anything) => anything)
- (p/process-tweet (create-tweet "@nuotl 1/1/2013 9am 1h N Hello World" 22)) => (throws Exception (str :in-past-error))
+ (p/process-tweet (create-tweet "@nuotl 1/1/2013 9am 1h N Hello World" 22)) =>
+ (throws (exception-with-code :in-past-error))
  )

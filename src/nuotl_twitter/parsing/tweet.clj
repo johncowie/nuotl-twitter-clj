@@ -25,7 +25,7 @@
               (recur (inc i) (assoc ret (parse-map :id) val))
               ))
           (assoc ret :text (parts 5))))
-      (throw (Exception. (str :too-short-error))))))
+      (throw (ProcessingException. :too-short-error)))))
 
 (defn merge-date-and-time [date time]
   (clj-time/date-time (clj-time/year date) (clj-time/month date) (clj-time/day date)
@@ -39,7 +39,7 @@
 
 (defn check-if-in-past [m]
   (if ( > (compare (clj-time/now) (m :start)) 0)
-    (throw (Exception. (str :in-past-error)))
+    (throw (ProcessingException. :in-past-error))
     m
     ))
 
