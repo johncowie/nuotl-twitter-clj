@@ -11,11 +11,15 @@
         (= (t/day val) d)
         )))
 
+(defn exception-with-code [code]
+  (fn [e]
+    (= (. e (getErrorCode)) code)))
+
 (facts
  (against-background
   (t/now) => (t/date-time 2013 1 28 7 0 0)
  )
- (parser/parse-date "lkjlsdf") => (throws Exception ":date-error")
+ (parser/parse-date "lkjlsdf") => (throws (exception-with-code :date-error))
  (parser/parse-date "25/12/2012") => (matches-date? 2012 12 25)
  (parser/parse-date "2/1/2013") => (matches-date? 2013 1 2)
  (parser/parse-date "today") => (matches-date? 2013 1 28)
@@ -23,7 +27,7 @@
  (parser/parse-date "monday") => (matches-date? 2013 2 4)
  (parser/parse-date "Tuesday") => (matches-date? 2013 1 29)
  (parser/parse-date "wed") => (matches-date? 2013 1 30)
- (parser/parse-date "t") => (throws Exception ":date-error")
+ (parser/parse-date "t") => (throws (exception-with-code :date-error))
  (parser/parse-date "SAT") => (matches-date? 2013 2 2)
  (parser/parse-date "25.12.2012") => (matches-date? 2012 12 25)
  )

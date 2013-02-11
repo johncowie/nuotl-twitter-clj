@@ -2,7 +2,9 @@
   (:require [clj-time.format :as f]
             [clj-time.core :as t]
             [clojure.string :as s]
-            ))
+            )
+  (:import ProcessingException)
+  )
 
 (defn- today [] (t/now))
 
@@ -71,5 +73,5 @@
           (recur (inc i))
           d
           ))
-      (throw (Exception. (str :date-error)))
+      (throw (ProcessingException. :date-error))
       )))
