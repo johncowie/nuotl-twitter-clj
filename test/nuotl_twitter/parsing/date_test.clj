@@ -1,7 +1,8 @@
 (ns nuotl-twitter.parsing.date-test
   (:use [midje.sweet])
   (:require [nuotl-twitter.parsing.date :as parser]
-            [clj-time.core :as t]))
+            [clj-time.core :as t]
+            [nuotl-twitter.test-utils :refer [exception-with-code]]))
 
 (defn matches-date? [y m d]
  (fn [val]
@@ -10,10 +11,6 @@
         (= (t/month val) m)
         (= (t/day val) d)
         )))
-
-(defn exception-with-code [code]
-  (fn [e]
-    (= (. e (getErrorCode)) code)))
 
 (facts
  (against-background

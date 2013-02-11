@@ -14,6 +14,6 @@
         (let [number (read-string numb)]
           (if (and (number? number) (pos? number))
             (ceil  (* number multiplier))
-            (throw (Exception. (str :duration-error)))
+            (throw (ProcessingException. :duration-error))
             ))
-        (throw (Exception. (str :duration-error)))))))
+        (throw (ProcessingException. :duration-error))))))
