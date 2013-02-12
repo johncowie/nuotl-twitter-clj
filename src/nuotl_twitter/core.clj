@@ -36,12 +36,9 @@
     (try
       (do
         (let [processed (p/process-tweet tweet)]
-          (println "SUCCESS")
           (r/respond (get-reply-fn twitter) tweet :success (processed :start))))
-      (catch Exception e
-        (. e (printStackTrace))
-        (let [error-code (read-string (. e (getMessage)))]
-          (println (format "PROCESSING ERROR: %s" error-code))
+      (catch ProcessingException e
+        (let [error-code (. e (getErrorCode))]
           (r/respond (get-reply-fn twitter) tweet error-code nil)
           )))
      (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
