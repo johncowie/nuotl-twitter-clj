@@ -24,26 +24,38 @@
         (recur (inc i) (fix-text text (urls i)))
         (assoc tweet :text text)))))
 
-(defn- check-approval [tweet]
-  (if-not (id-approved? ((tweet :tweeter) :_id))
-    (do
-      (dao/add-tweeter (tweet :tweeter) false)
-      (throw (ProcessingException. :unapproved))
-        )))
-
 (defn- clean-up-parsed-tweet [tweet parsed-tweet]
   (assoc
       (dissoc (swap-in-urls parsed-tweet) :tweeter :urls :in-response-to)
       :tweeter ((tweet :tweeter) :_id)))
 
-(defn- process-tweet-text [tweet]
-  (let [parsed-tweet (clean-up-parsed-tweet
+(defn- process-tweet-text [m]
+  (let [tweet (m :tweet)
+        parsed-tweet (clean-up-parsed-tweet
                       tweet (merge tweet (tweet-parser/parse-tweet (tweet :text))))]
     (dao/add-tweeter (tweet :tweeter) true)
-    (dao/add-event parsed-tweet)
-    parsed-tweet
-    ))
+    (assoc m :processed parsed-tweet)))
+
+(defn- check-approval [m]
+  (let [tweet (m :tweet)]
+    (if-not (id-approved? ((tweet :tweeter) :_id))
+      (do
+        (dao/add-tweeter (tweet :tweeter) false)
+        (throw (ProcessingException. :unapproved)))))
+  m)
+
+(defn- check-for-url [m]
+  (let [tweet (m :tweet)]
+    (if (empty? (tweet :urls))
+      (throw (ProcessingException. :no-url))))
+  m)
 
 (defn process-tweet [tweet]
-  (check-approval tweet)
-  (process-tweet-text tweet))
+  (let [processed
+        (:processed
+         (-> {:tweet tweet}
+             check-approval
+             process-tweet-text
+             check-for-url))]
+    (dao/add-event processed)
+    processed))

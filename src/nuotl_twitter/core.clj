@@ -1,5 +1,4 @@
 (ns nuotl-twitter.core
-  ;(:import [twitter4j TwitterStreamFactory TwitterFactory])
   (:require [cheshire.core :as j]
             [nuotl-twitter.processor :as p]
             [nuotl-twitter.responder :as r]
@@ -41,8 +40,7 @@
         (let [error-code (. e (getErrorCode))]
           (r/respond (get-reply-fn twitter) tweet error-code nil)
           )))
-     (dao/add-reply-id (tweet :_id) (tweet :in-response-to))
-    ))
+     (dao/add-reply-id (tweet :_id) (tweet :in-response-to))))
 
 (defn listener [twitter twitter-id]
   (ClojureStatusListener.
@@ -64,12 +62,10 @@
     (let [config (configuration props)]
       (let [stream (. (twitter4j.TwitterStreamFactory. config) (getInstance))
             twitter (. (twitter4j.TwitterFactory. config) (getInstance))
-            twitter-id (. stream (getId))
-            ]
+            twitter-id (. stream (getId))]
         (. stream (addListener (listener twitter twitter-id)))
         (. stream (user))))))
 
 (defn -main [& args]
   (.start (Thread. #(jetty/run-jetty app {:port 5000})))
-  (start-twitter args)
-  )
+  (start-twitter args))
