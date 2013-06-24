@@ -20,6 +20,45 @@ END:
  - Reply with message if exists
 
 
+actions just pump through output
+checkers return output along with boolean to indicate whether or not to continue in process
+
+
+(logic 
+	[
+		{
+			:checker checker-fn
+		}
+		{
+			:checker is-me
+		}
+		{
+			:action parse-tweeter
+			:checker is-approved
+		}
+		{
+			:action parse-tweet
+			:checker parsed-successfully
+		}
+		{
+			:check-for-url
+		}
+		{
+			:action clean-up-urls
+		}
+	]
+)
+
+
+
+
+
+
+
+
+
+
+
 
 
 3.1 Check that tweet has enough tokens
