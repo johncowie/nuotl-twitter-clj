@@ -26,39 +26,20 @@ checkers return output along with boolean to indicate whether or not to continue
 
 (logic 
 	[
-		{
-			:checker checker-fn
-		}
-		{
-			:checker is-me
-		}
-		{
-			:action parse-tweeter
-			:checker is-approved
-		}
-		{
-			:action parse-tweet
-			:checker parsed-successfully
-		}
-		{
-			:check-for-url
-		}
-		{
-			:action clean-up-urls
-		}
+		{						:validate is-me?				}
+		{:action parse-tweeter  :validate is-approved?			}
+		{:action parse-tweet 	:validate parsed-successfully?	}
+		{						:validate url-present?			}
+		{:action clean-up-urls									}
 	]
 )
 
+(validate [input output]
+	{:input input :output output :success true :message "Meh meh meh"})
 
-
-
-
-
-
-
-
-
-
+(action [input output]
+	{:input input :output output :message "blah blah blah"})
+	
 
 
 3.1 Check that tweet has enough tokens
