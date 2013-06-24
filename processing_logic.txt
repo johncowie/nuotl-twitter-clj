@@ -1,0 +1,40 @@
+
+Logic
+
+1.	Check that tweeter is not me (nuotl)    => (tweeter_name != NUOTL)
+	Pass:	CONTINUE
+	Fail: 	END
+2.	Check that tweeter is approved			=> (approved == Y)
+	Pass:	(add tweeter) CONTINUE
+	Fail:	(add tweeter) (add message "Unapproved") END
+3. 	Parse tweet 							=> (event != nil)
+	Pass: 	(add event) CONTINUE
+	Fail:	(add message messageFromTweetProcessor) END
+4. 	Check that tweeter has a url 			=> (url != nil)
+	Pass: 	CONTINUE
+	Fail:	(add message "Need a URL")
+
+END:
+ - Persist tweeter if exists
+ - Persist tweet if exists
+ - Reply with message if exists
+
+
+
+
+3.1 Check that tweet has enough tokens
+	Pass:	CONTINUE
+	Fail:	(add message "Too short") END
+3.2 Parse date
+	Pass:	(add date to event) CONTINUE
+	Fail:	(clear event) (add message "Date error") END
+3.3 Parse time
+	Pass:	(add time to event) CONTINUE
+	Fail:	(clear event) (add message "Time error") END
+3.4 Parse duration
+	Pass:	(add duration to event) CONTINUE
+	Fail:	(clear event) (add message "Duration error") END
+3.5 Parse area
+	Pass:	(add area to event) CONTINUE
+	Fail:	(clear event) (add message "Area error") END
+
