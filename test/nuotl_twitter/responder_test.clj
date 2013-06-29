@@ -19,6 +19,4 @@
  => {77 "@derek SUCCESS http://nextupontheleft.org/events/2013/3#77"}
  (r/respond test-reply-fn (create-tweet 77 "derek" 44) :area-error nil)
  => {77 "@derek AREA-ERROR http://twitter.com/44/status/77"}
- (r/respond test-reply-fn (create-tweet 89 "bobgeldof" 61) :is-me nil)
- => nil
  )
