@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="target">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/target/nuotl-twitter-0.1.0-SNAPSHOT-standalone.jar!/" />
+      <root url="jar://$PROJECT_DIR$/target/nuotl-twitter-0.1.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

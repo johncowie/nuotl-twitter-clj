@@ -37,9 +37,7 @@
     (mc/save "tweeter" (assoc tweeter :approved "N"))))
 
 (defn add-or-update-tweeter [tweeter]
-  (throw (Exception. "Unimplemented"))
-  )
+  (mc/update "tweeter" (select-keys tweeter [:_id]) tweeter :upsert true))
 
 (defn tweeter-approved? [id]
-  (throw (Exception. "Unimplemented"))
-  )
+  (= (:approved (get-tweeter id)) "Y"))
