@@ -1,15 +1,21 @@
-import clojure.lang.*;
-import twitter4j.json.*;
+import clojure.lang.IFn;
+import clojure.lang.Keyword;
+import clojure.lang.PersistentHashMap;
+import clojure.lang.PersistentVector;
 import twitter4j.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClojureStatusListener implements UserStreamListener {
 
+    private long applicationId;
     private IFn statusFunction;
     private IFn deleteFunction;
     private IFn exceptionFunction;
 
-    public ClojureStatusListener(IFn statusFunction, IFn deleteFunction, IFn exceptionFunction) {
+    public ClojureStatusListener(long applicationId, IFn statusFunction, IFn deleteFunction, IFn exceptionFunction) {
+        this.applicationId = applicationId;
         this.statusFunction = statusFunction;
         this.deleteFunction = deleteFunction;
         this.exceptionFunction = exceptionFunction;
@@ -23,8 +29,7 @@ public class ClojureStatusListener implements UserStreamListener {
             hashtagList.add(e.getText());
         }
         for(URLEntity u : status.getURLEntities()) {
-            urlMaps.add(PersistentHashMap.create(Keyword.intern("start"), u.getStart(),
-                                     Keyword.intern("end"), u.getEnd(),
+            urlMaps.add(PersistentHashMap.create(
                                      Keyword.intern("url"), u.getURL().toString(),
                                      Keyword.intern("display-url"), u.getDisplayURL(),
                                      Keyword.intern("expanded-url"), u.getExpandedURL().toString()));
@@ -43,7 +48,8 @@ public class ClojureStatusListener implements UserStreamListener {
                                                          Keyword.intern("tweeter"), user,
                                                          Keyword.intern("tags"), tags,
                                                          Keyword.intern("urls"), urls,
-                                                         Keyword.intern("in-response-to"), status.getInReplyToStatusId()
+                                                         Keyword.intern("in-response-to"), status.getInReplyToStatusId(),
+                                                         Keyword.intern("application-id"), applicationId
                                                          );
         this.statusFunction.invoke(map);
     }

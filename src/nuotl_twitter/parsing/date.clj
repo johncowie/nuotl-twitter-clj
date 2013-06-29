@@ -73,5 +73,4 @@
           (recur (inc i))
           d
           ))
-      (throw (ProcessingException. :date-error))
-      )))
+      nil)))

@@ -6,14 +6,20 @@
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
             [ring.adapter.jetty :as jetty])
+  (:import [twitter4j StatusUpdate Twitter TwitterFactory TwitterStreamFactory]
+           [twitter4j.conf PropertyConfiguration])
   (:gen-class))
 
 (defn configuration [file]
-  (twitter4j.conf.PropertyConfiguration. (clojure.java.io/input-stream file)))
+  (PropertyConfiguration. (clojure.java.io/input-stream file)))
 
-(defn- reply-to-tweet [twitter tweet-id message]
-  (let [status (. (twitter4j.StatusUpdate. message) (inReplyToStatusId tweet-id))]
-    (. twitter (updateStatus status))))
+(defn- reply-to-tweet
+  [twitter tweet-id message]
+  (. twitter
+     (updateStatus
+      (.
+       (twitter4j.StatusUpdate. message)
+       (inReplyToStatusId tweet-id)))))
 
 (defn- handle-delete [tweet-id user-id twitter twitter-id]
   (if (not= twitter-id user-id)
@@ -29,21 +35,27 @@
   (fn [tweet-id message]
     (reply-to-tweet twitter tweet-id message)))
 
-(defn- handle-tweet [tweet twitter twitter-id]
+(defn handle-tweet [tweet twitter twitter-id]
   (println tweet)
-  (if (not= ((tweet :tweeter) :_id) twitter-id)
-    (try
-      (do
-        (let [processed (p/process-tweet tweet)]
-          (r/respond (get-reply-fn twitter) tweet :success (processed :start))))
-      (catch ProcessingException e
-        (let [error-code (. e (getErrorCode))]
-          (r/respond (get-reply-fn twitter) tweet error-code nil)
-          )))
-     (dao/add-reply-id (tweet :_id) (tweet :in-response-to))))
+  (let [processing-result (p/process-tweet tweet)]
+    (let [event (:event processing-result)
+          tweeter (:tweeter processing-result)
+          message-code (:message processing-result)]
+      (if-not (nil? event)
+        (dao/add-event event)
+        (println "No event so not added"))
+      (if-not (nil? tweeter)
+        (dao/add-or-update-tweeter tweeter)
+        (println "No tweeter so not added"))
+      (if-not (nil? message-code)
+        (r/respond
+         (get-reply-fn twitter) tweet message-code (:start event))
+        (println "No message code so no reply")
+        ))))
 
 (defn listener [twitter twitter-id]
   (ClojureStatusListener.
+   twitter-id
    #(handle-tweet % twitter twitter-id)  ; status
    #(handle-delete %1 %2 twitter twitter-id) ; deletion
    #(println %) ; exception
@@ -60,8 +72,8 @@
         db (if (> (count args) 1) (nth args 1) "nuotl")]
     (dao/connect-to-db db)
     (let [config (configuration props)]
-      (let [stream (. (twitter4j.TwitterStreamFactory. config) (getInstance))
-            twitter (. (twitter4j.TwitterFactory. config) (getInstance))
+      (let [stream (. (TwitterStreamFactory. config) (getInstance))
+            twitter (. (TwitterFactory. config) (getInstance))
             twitter-id (. stream (getId))]
         (. stream (addListener (listener twitter twitter-id)))
         (. stream (user))))))

@@ -2,7 +2,7 @@
   (:require [clojure.string :as s]
             ))
 
-(defn ceil [number]
+(defn- ceil [number]
   (int (Math/ceil (double number))))
 
 (defn parse-duration [string]
@@ -14,6 +14,6 @@
         (let [number (read-string numb)]
           (if (and (number? number) (pos? number))
             (ceil  (* number multiplier))
-            (throw (ProcessingException. :duration-error))
+            nil
             ))
-        (throw (ProcessingException. :duration-error))))))
+        nil))))

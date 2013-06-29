@@ -10,10 +10,9 @@
 
 (defn respond [replyfn tweet code start-date]
   (println "CODE: " code)
-  (if-not (or (nil? code) (= code :is-me))
-    (let [name (:name (:tweeter tweet))
-          tweet-id (:_id tweet)
-          text (m/get-message code)
-          url (tweet-url tweet code start-date)]
-      (replyfn tweet-id
-               (format "@%s %s %s" name text url)))))
+  (let [name (:name (:tweeter tweet))
+        tweet-id (:_id tweet)
+        text (m/get-message code)
+        url (tweet-url tweet code start-date)]
+    (replyfn tweet-id
+             (format "@%s %s %s" name text url))))

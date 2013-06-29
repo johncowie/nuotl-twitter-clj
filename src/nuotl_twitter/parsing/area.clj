@@ -5,5 +5,4 @@
   (let [id (clojure.string/lower-case string)]
     (if (some #{id} (dao/get-area-ids))
       (keyword id)
-      (throw (ProcessingException. :area-error))
-      )))
+      nil)))

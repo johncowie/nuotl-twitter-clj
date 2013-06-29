@@ -15,5 +15,5 @@
 (defn get-message [s]
   (if-let [message (messages s)]
     message
-    (format "No message for code [%s]" s)
+    (throw (Exception. (format  "No message found for code %s" s)))
     ))

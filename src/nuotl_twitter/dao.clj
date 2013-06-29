@@ -13,6 +13,7 @@
        (mc/find-maps "area")))
 
 (defn add-event [event]
+  (println event)
   (mc/save "event" event))
 
 (defn add-reply-id [reply-id event-tweet-id]
@@ -34,3 +35,11 @@
   (if approved?
     (mc/save "tweeter" (assoc tweeter :approved "Y"))
     (mc/save "tweeter" (assoc tweeter :approved "N"))))
+
+(defn add-or-update-tweeter [tweeter]
+  (throw (Exception. "Unimplemented"))
+  )
+
+(defn tweeter-approved? [id]
+  (throw (Exception. "Unimplemented"))
+  )
