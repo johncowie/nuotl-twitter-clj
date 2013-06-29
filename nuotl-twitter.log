@@ -1,0 +1,148 @@
+12:27:01,103 DEBUG HttpClientImpl:67 - Request: 
+12:27:01,108 DEBUG HttpClientImpl:67 - GET http://api.twitter.com/1/account/verify_credentials.json?include_entities=true
+12:27:01,110 DEBUG OAuthAuthorization:67 - OAuth base string: GET&http%3A%2F%2Fapi.twitter.com%2F1%2Faccount%2Fverify_credentials.json&include_entities%3Dtrue%26oauth_consumer_key%3D5Cy4bjg82x3Se2muoCXT0A%26oauth_nonce%3D2267488660%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1372505221%26oauth_token%3D578849609-XAQZ1wg5WS0LQC1dxjFQxeVrkDHD9dTNneyBLrSW%26oauth_version%3D1.0
+12:27:01,347 DEBUG OAuthAuthorization:67 - OAuth signature: ZYMY4U6g+I7N9U6kBcu4J3q3RJ4=
+12:27:01,348 DEBUG HttpClientImpl:67 - Authorization: **********************************************************************************************************************************************************************************************************************************************************************************
+12:27:01,348 DEBUG HttpClientImpl:67 - X-Twitter-Client-URL: http://twitter4j.org/en/twitter4j-2.2.5.xml
+12:27:01,348 DEBUG HttpClientImpl:67 - X-Twitter-Client: Twitter4J
+12:27:01,348 DEBUG HttpClientImpl:67 - Accept-Encoding: gzip
+12:27:01,349 DEBUG HttpClientImpl:67 - User-Agent: twitter4j http://twitter4j.org/ /2.2.5
+12:27:01,349 DEBUG HttpClientImpl:67 - X-Twitter-Client-Version: 2.2.5
+12:27:01,679 DEBUG HttpClientImpl:67 - Response: 
+12:27:01,680 DEBUG HttpClientImpl:67 - HTTP/1.1 410 Gone
+12:27:01,681 DEBUG HttpClientImpl:67 - content-type: application/json; charset=utf-8
+12:27:01,681 DEBUG HttpClientImpl:67 - set-cookie: guest_id=v1%3A137250521994921044; Domain=.twitter.com; Path=/; Expires=Mon, 29-Jun-2015 11:26:59 UTC
+12:27:01,681 DEBUG HttpClientImpl:67 - Transfer-Encoding: chunked
+12:27:01,681 DEBUG HttpClientImpl:67 - Content-Encoding: gzip
+12:27:01,683 DEBUG HttpClientImpl:67 - server: tfe
+12:27:01,683 DEBUG HttpClientImpl:67 - date: Sat, 29 Jun 2013 11:26:59 UTC
+12:27:01,686 DEBUG HttpResponseImpl:67 - {"errors": [{"message": "The Twitter REST API v1 is no longer active. Please migrate to API v1.1. https://dev.twitter.com/docs/api/1.1/overview.", "code": 68}]}
+
+12:28:46,135 DEBUG HttpClientImpl:67 - Request: 
+12:28:46,142 DEBUG HttpClientImpl:67 - GET http://api.twitter.com/1.1/account/verify_credentials.json
+12:28:46,143 DEBUG OAuthAuthorization:67 - OAuth base string: GET&http%3A%2F%2Fapi.twitter.com%2F1.1%2Faccount%2Fverify_credentials.json&oauth_consumer_key%3D5Cy4bjg82x3Se2muoCXT0A%26oauth_nonce%3D3458018815%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1372505326%26oauth_token%3D578849609-XAQZ1wg5WS0LQC1dxjFQxeVrkDHD9dTNneyBLrSW%26oauth_version%3D1.0
+12:28:46,355 DEBUG OAuthAuthorization:67 - OAuth signature: YyAO+QclqZZRK7jq2IP3QoJ2E4c=
+12:28:46,356 DEBUG HttpClientImpl:67 - Authorization: **********************************************************************************************************************************************************************************************************************************************************************************
+12:28:46,356 DEBUG HttpClientImpl:67 - X-Twitter-Client-URL: http://twitter4j.org/en/twitter4j-3.0.3.xml
+12:28:46,356 DEBUG HttpClientImpl:67 - X-Twitter-Client: Twitter4J
+12:28:46,357 DEBUG HttpClientImpl:67 - Accept-Encoding: gzip
+12:28:46,357 DEBUG HttpClientImpl:67 - User-Agent: twitter4j http://twitter4j.org/ /3.0.3
+12:28:46,357 DEBUG HttpClientImpl:67 - X-Twitter-Client-Version: 3.0.3
+12:28:47,456 DEBUG HttpClientImpl:67 - Response: 
+12:28:47,456 DEBUG HttpClientImpl:67 - HTTP/1.1 200 OK
+12:28:47,457 DEBUG HttpClientImpl:67 - content-type: application/json; charset=utf-8
+12:28:47,457 DEBUG HttpClientImpl:67 - x-frame-options: SAMEORIGIN
+12:28:47,457 DEBUG HttpClientImpl:67 - x-mid: d5f57882f967bd1118ed6045c970436c68f9de4b
+12:28:47,457 DEBUG HttpClientImpl:67 - etag: "ead93ee04e8a7b4986bf00c9f00e8f05"
+12:28:47,458 DEBUG HttpClientImpl:67 - last-modified: Sat, 29 Jun 2013 11:28:45 GMT
+12:28:47,459 DEBUG HttpClientImpl:67 - x-rate-limit-remaining: 14
+12:28:47,459 DEBUG HttpClientImpl:67 - status: 200 OK
+12:28:47,459 DEBUG HttpClientImpl:67 - x-transaction-mask: a6183ffa5f8ca943ff1b53b5644ef114d41f4c7d
+12:28:47,459 DEBUG HttpClientImpl:67 - content-encoding: gzip
+12:28:47,459 DEBUG HttpClientImpl:67 - date: Sat, 29 Jun 2013 11:28:45 GMT
+12:28:47,459 DEBUG HttpClientImpl:67 - x-transaction: 170d9d0f092bdd16
+12:28:47,459 DEBUG HttpClientImpl:67 - vary: Accept-Encoding
+12:28:47,460 DEBUG HttpClientImpl:67 - pragma: no-cache
+12:28:47,460 DEBUG HttpClientImpl:67 - cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+12:28:47,460 DEBUG HttpClientImpl:67 - expires: Tue, 31 Mar 1981 05:00:00 GMT
+12:28:47,465 DEBUG HttpClientImpl:67 - x-runtime: 0.08411
+12:28:47,465 DEBUG HttpClientImpl:67 - x-rate-limit-limit: 15
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: guest_id=v1%3A137250532543226319; Domain=.twitter.com; Path=/; Expires=Mon, 29-Jun-2015 11:28:45 UTC
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: _twitter_sess=BAh7CDoHaWQiJTNlYzk0YzQ2NjU2MjJkNDYxOTk2ZWY4MTc1YWY0YmFmOgxj%250Ac3JmX2lkIiVlZmY3ZjFkODRmMzYyODVhZWRlZTdiZDQ0NGY5OTc5NzoPY3Jl%250AYXRlZF9hdGwrCOs%252FsY8%252FAQ%253D%253D--8f5a075a0797abaa5a9b39d2a9a0feb0a81ad52f; domain=.twitter.com; path=/; HttpOnly
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: twid=u%3D578849609%7CQkcCUDr7hzOhkmeXEjIfHSEKu7E%3D; domain=.twitter.com; path=/; secure
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:28:47,465 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:28:47,466 DEBUG HttpClientImpl:67 - set-cookie: dnt=; domain=.twitter.com; path=/; expires=Thu, 01-Jan-1970 00:00:00 GMT
+12:28:47,466 DEBUG HttpClientImpl:67 - content-length: 981
+12:28:47,466 DEBUG HttpClientImpl:67 - x-rate-limit-reset: 1372506225
+12:28:47,466 DEBUG HttpClientImpl:67 - server: tfe
+12:28:47,466 DEBUG HttpClientImpl:67 - x-access-level: read-write
+12:28:47,486 DEBUG HttpResponseImpl:67 - {"location":null,"default_profile":true,"profile_background_tile":false,"statuses_count":368,"lang":"en","profile_link_color":"0084B4","id":578849609,"following":false,"favourites_count":0,"protected":false,"profile_text_color":"333333","description":null,"contributors_enabled":false,"verified":false,"profile_sidebar_border_color":"C0DEED","name":"Next Up On The Left","profile_background_color":"C0DEED","created_at":"Sun May 13 10:44:14 +0000 2012","default_profile_image":true,"followers_count":2,"geo_enabled":false,"status":{"contributors":null,"text":"@JohnCowieDev Your event tweet should have an error. http://t.co/rQuc1nK6zZ","geo":null,"retweeted":false,"in_reply_to_screen_name":"JohnCowieDev","possibly_sensitive":false,"truncated":false,"entities":{"urls":[{"expanded_url":"http://twitter.com/578502168/status/341516310032830464","indices":[53,75],"display_url":"twitter.com/578502168/stat\u2026","url":"http://t.co/rQuc1nK6zZ"}],"hashtags":[],"user_mentions":[{"id":578502168,"name":"John Cowie","indices":[0,13],"screen_name":"JohnCowieDev","id_str":"578502168"}]},"in_reply_to_status_id_str":"341516310032830464","id":341516319679709184,"source":"<a href=\"http://www.nextupontheleft.org\" rel=\"nofollow\">Next Up On The Left<\/a>","in_reply_to_user_id_str":"578502168","favorited":false,"in_reply_to_status_id":341516310032830464,"created_at":"Mon Jun 03 11:26:50 +0000 2013","in_reply_to_user_id":578502168,"retweet_count":0,"possibly_sensitive_editable":true,"id_str":"341516319679709184","place":null,"coordinates":null},"profile_image_url_https":"https://twimg0-a.akamaihd.net/sticky/default_profile_images/default_profile_2_normal.png","profile_background_image_url":"http://a0.twimg.com/images/themes/theme1/bg.png","profile_background_image_url_https":"https://twimg0-a.akamaihd.net/images/themes/theme1/bg.png","entities":{"description":{"urls":[]},"url":{"urls":[{"expanded_url":"http://www.nextupontheleft.org","indices":[0,22],"display_url":"nextupontheleft.org","url":"http://t.co/4UNRgKZb4f"}]}},"follow_request_sent":false,"url":"http://t.co/4UNRgKZb4f","utc_offset":null,"time_zone":null,"notifications":false,"friends_count":1,"profile_use_background_image":true,"profile_sidebar_fill_color":"DDEEF6","screen_name":"NUOTL","id_str":"578849609","profile_image_url":"http://a0.twimg.com/sticky/default_profile_images/default_profile_2_normal.png","listed_count":0,"is_translator":false}
+12:28:47,525  INFO TwitterStreamImpl:82 - Establishing connection.
+12:28:47,525 DEBUG TwitterStreamImpl:67 - Twitter Stream consumer-1[Establishing connection]
+12:28:47,674 DEBUG HttpClientImpl:67 - Request: 
+12:28:47,674 DEBUG HttpClientImpl:67 - POST https://userstream.twitter.com/1.1/user.json
+12:28:47,675 DEBUG OAuthAuthorization:67 - OAuth base string: POST&https%3A%2F%2Fuserstream.twitter.com%2F1.1%2Fuser.json&oauth_consumer_key%3D5Cy4bjg82x3Se2muoCXT0A%26oauth_nonce%3D-592298829%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1372505327%26oauth_token%3D578849609-XAQZ1wg5WS0LQC1dxjFQxeVrkDHD9dTNneyBLrSW%26oauth_version%3D1.0%26stall_warnings%3Dtrue
+12:28:47,675 DEBUG OAuthAuthorization:67 - OAuth signature: v8eUTLc3jdBJhmpVvU+OxR8hpiE=
+12:28:47,676 DEBUG HttpClientImpl:67 - Authorization: **********************************************************************************************************************************************************************************************************************************************************************************
+12:28:47,676 DEBUG HttpClientImpl:67 - X-Twitter-Client-URL: http://twitter4j.org/en/twitter4j-3.0.3.xml
+12:28:47,676 DEBUG HttpClientImpl:67 - X-Twitter-Client: Twitter4J
+12:28:47,676 DEBUG HttpClientImpl:67 - Accept-Encoding: gzip
+12:28:47,676 DEBUG HttpClientImpl:67 - User-Agent: twitter4j http://twitter4j.org/ /3.0.3
+12:28:47,677 DEBUG HttpClientImpl:67 - X-Twitter-Client-Version: 3.0.3
+12:28:47,677 DEBUG HttpClientImpl:67 - Connection: close
+12:28:47,677 DEBUG HttpClientImpl:67 - Post Params: stall_warnings=true
+12:28:48,599 DEBUG HttpClientImpl:67 - Response: 
+12:28:48,600 DEBUG HttpClientImpl:67 - HTTP/1.0 200 OK
+12:28:48,600 DEBUG HttpClientImpl:67 - X-Preamble-Size: 27
+12:28:48,600 DEBUG HttpClientImpl:67 - Content-Type: application/json
+12:28:48,600 DEBUG HttpClientImpl:67 - Connection: close
+12:28:48,601  INFO TwitterStreamImpl:82 - Connection established.
+12:28:48,601  INFO TwitterStreamImpl:82 - Receiving status stream.
+12:28:48,601 DEBUG TwitterStreamImpl:67 - Twitter Stream consumer-1[Receiving stream]
+12:28:48,615 DEBUG StatusStreamImpl:67 - Received:{"friends":[578502168]}
+12:31:10,126 DEBUG HttpClientImpl:67 - Request: 
+12:31:10,131 DEBUG HttpClientImpl:67 - GET http://api.twitter.com/1.1/account/verify_credentials.json
+12:31:10,133 DEBUG OAuthAuthorization:67 - OAuth base string: GET&http%3A%2F%2Fapi.twitter.com%2F1.1%2Faccount%2Fverify_credentials.json&oauth_consumer_key%3D5Cy4bjg82x3Se2muoCXT0A%26oauth_nonce%3D2140064576%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1372505470%26oauth_token%3D578849609-XAQZ1wg5WS0LQC1dxjFQxeVrkDHD9dTNneyBLrSW%26oauth_version%3D1.0
+12:31:10,345 DEBUG OAuthAuthorization:67 - OAuth signature: T/lbT9XtQjhPesBMsZAGHtw7rA8=
+12:31:10,346 DEBUG HttpClientImpl:67 - Authorization: **********************************************************************************************************************************************************************************************************************************************************************************
+12:31:10,346 DEBUG HttpClientImpl:67 - X-Twitter-Client-URL: http://twitter4j.org/en/twitter4j-3.0.3.xml
+12:31:10,346 DEBUG HttpClientImpl:67 - X-Twitter-Client: Twitter4J
+12:31:10,347 DEBUG HttpClientImpl:67 - Accept-Encoding: gzip
+12:31:10,347 DEBUG HttpClientImpl:67 - User-Agent: twitter4j http://twitter4j.org/ /3.0.3
+12:31:10,347 DEBUG HttpClientImpl:67 - X-Twitter-Client-Version: 3.0.3
+12:31:10,845 DEBUG HttpClientImpl:67 - Response: 
+12:31:10,846 DEBUG HttpClientImpl:67 - HTTP/1.1 200 OK
+12:31:10,846 DEBUG HttpClientImpl:67 - content-type: application/json; charset=utf-8
+12:31:10,847 DEBUG HttpClientImpl:67 - x-frame-options: SAMEORIGIN
+12:31:10,847 DEBUG HttpClientImpl:67 - x-mid: 0e3d7480ec0433b7d3220050ed25e3c06faaf679
+12:31:10,847 DEBUG HttpClientImpl:67 - etag: "ead93ee04e8a7b4986bf00c9f00e8f05"
+12:31:10,849 DEBUG HttpClientImpl:67 - last-modified: Sat, 29 Jun 2013 11:31:09 GMT
+12:31:10,849 DEBUG HttpClientImpl:67 - x-rate-limit-remaining: 13
+12:31:10,849 DEBUG HttpClientImpl:67 - status: 200 OK
+12:31:10,850 DEBUG HttpClientImpl:67 - x-transaction-mask: a6183ffa5f8ca943ff1b53b5644ef114d41f4c7d
+12:31:10,850 DEBUG HttpClientImpl:67 - content-encoding: gzip
+12:31:10,850 DEBUG HttpClientImpl:67 - date: Sat, 29 Jun 2013 11:31:09 GMT
+12:31:10,850 DEBUG HttpClientImpl:67 - x-transaction: 1891769128446061
+12:31:10,850 DEBUG HttpClientImpl:67 - vary: Accept-Encoding
+12:31:10,850 DEBUG HttpClientImpl:67 - pragma: no-cache
+12:31:10,850 DEBUG HttpClientImpl:67 - cache-control: no-cache, no-store, must-revalidate, pre-check=0, post-check=0
+12:31:10,851 DEBUG HttpClientImpl:67 - expires: Tue, 31 Mar 1981 05:00:00 GMT
+12:31:10,851 DEBUG HttpClientImpl:67 - x-runtime: 0.02769
+12:31:10,851 DEBUG HttpClientImpl:67 - x-rate-limit-limit: 15
+12:31:10,851 DEBUG HttpClientImpl:67 - set-cookie: guest_id=v1%3A137250546897422327; Domain=.twitter.com; Path=/; Expires=Mon, 29-Jun-2015 11:31:09 UTC
+12:31:10,851 DEBUG HttpClientImpl:67 - set-cookie: _twitter_sess=BAh7CDoHaWQiJWE5OWFjNGI2NTYxNzY0NDk4MmU5MDEzNGFmNzBkNjY4Ogxj%250Ac3JmX2lkIiUxZjExNTMzYWEwOTUyODYzZDY1N2Y2YjA2OTcxNzg1MjoPY3Jl%250AYXRlZF9hdGwrCKJws48%252FAQ%253D%253D--7c508b970223e3481c4ec33b87db5b22dbe6f77e; domain=.twitter.com; path=/; HttpOnly
+12:31:10,851 DEBUG HttpClientImpl:67 - set-cookie: twid=u%3D578849609%7CQkcCUDr7hzOhkmeXEjIfHSEKu7E%3D; domain=.twitter.com; path=/; secure
+12:31:10,851 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:31:10,852 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:31:10,852 DEBUG HttpClientImpl:67 - set-cookie: lang=en; path=/
+12:31:10,852 DEBUG HttpClientImpl:67 - set-cookie: dnt=; domain=.twitter.com; path=/; expires=Thu, 01-Jan-1970 00:00:00 GMT
+12:31:10,852 DEBUG HttpClientImpl:67 - content-length: 981
+12:31:10,852 DEBUG HttpClientImpl:67 - x-rate-limit-reset: 1372506225
+12:31:10,852 DEBUG HttpClientImpl:67 - server: tfe
+12:31:10,852 DEBUG HttpClientImpl:67 - x-access-level: read-write
+12:31:10,888 DEBUG HttpResponseImpl:67 - {"location":null,"default_profile":true,"profile_background_tile":false,"statuses_count":368,"lang":"en","profile_link_color":"0084B4","id":578849609,"following":false,"favourites_count":0,"protected":false,"profile_text_color":"333333","description":null,"contributors_enabled":false,"verified":false,"profile_sidebar_border_color":"C0DEED","name":"Next Up On The Left","profile_background_color":"C0DEED","created_at":"Sun May 13 10:44:14 +0000 2012","default_profile_image":true,"followers_count":2,"geo_enabled":false,"status":{"contributors":null,"text":"@JohnCowieDev Your event tweet should have an error. http://t.co/rQuc1nK6zZ","geo":null,"retweeted":false,"in_reply_to_screen_name":"JohnCowieDev","possibly_sensitive":false,"truncated":false,"entities":{"urls":[{"expanded_url":"http://twitter.com/578502168/status/341516310032830464","indices":[53,75],"display_url":"twitter.com/578502168/stat\u2026","url":"http://t.co/rQuc1nK6zZ"}],"hashtags":[],"user_mentions":[{"id":578502168,"name":"John Cowie","indices":[0,13],"screen_name":"JohnCowieDev","id_str":"578502168"}]},"in_reply_to_status_id_str":"341516310032830464","id":341516319679709184,"source":"<a href=\"http://www.nextupontheleft.org\" rel=\"nofollow\">Next Up On The Left<\/a>","in_reply_to_user_id_str":"578502168","favorited":false,"in_reply_to_status_id":341516310032830464,"created_at":"Mon Jun 03 11:26:50 +0000 2013","in_reply_to_user_id":578502168,"retweet_count":0,"possibly_sensitive_editable":true,"id_str":"341516319679709184","place":null,"coordinates":null},"profile_image_url_https":"https://twimg0-a.akamaihd.net/sticky/default_profile_images/default_profile_2_normal.png","profile_background_image_url":"http://a0.twimg.com/images/themes/theme1/bg.png","profile_background_image_url_https":"https://twimg0-a.akamaihd.net/images/themes/theme1/bg.png","entities":{"description":{"urls":[]},"url":{"urls":[{"expanded_url":"http://www.nextupontheleft.org","indices":[0,22],"display_url":"nextupontheleft.org","url":"http://t.co/4UNRgKZb4f"}]}},"follow_request_sent":false,"url":"http://t.co/4UNRgKZb4f","utc_offset":null,"time_zone":null,"notifications":false,"friends_count":1,"profile_use_background_image":true,"profile_sidebar_fill_color":"DDEEF6","screen_name":"NUOTL","id_str":"578849609","profile_image_url":"http://a0.twimg.com/sticky/default_profile_images/default_profile_2_normal.png","listed_count":0,"is_translator":false}
+12:31:10,915  INFO TwitterStreamImpl:82 - Establishing connection.
+12:31:10,915 DEBUG TwitterStreamImpl:67 - Twitter Stream consumer-1[Establishing connection]
+12:31:11,045 DEBUG HttpClientImpl:67 - Request: 
+12:31:11,045 DEBUG HttpClientImpl:67 - POST https://userstream.twitter.com/1.1/user.json
+12:31:11,046 DEBUG OAuthAuthorization:67 - OAuth base string: POST&https%3A%2F%2Fuserstream.twitter.com%2F1.1%2Fuser.json&oauth_consumer_key%3D5Cy4bjg82x3Se2muoCXT0A%26oauth_nonce%3D1843911644%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1372505471%26oauth_token%3D578849609-XAQZ1wg5WS0LQC1dxjFQxeVrkDHD9dTNneyBLrSW%26oauth_version%3D1.0%26stall_warnings%3Dtrue
+12:31:11,046 DEBUG OAuthAuthorization:67 - OAuth signature: uKZl1YgYgWLTnYGGJTYLIfma6eg=
+12:31:11,046 DEBUG HttpClientImpl:67 - Authorization: ********************************************************************************************************************************************************************************************************************************************************************************
+12:31:11,047 DEBUG HttpClientImpl:67 - X-Twitter-Client-URL: http://twitter4j.org/en/twitter4j-3.0.3.xml
+12:31:11,047 DEBUG HttpClientImpl:67 - X-Twitter-Client: Twitter4J
+12:31:11,047 DEBUG HttpClientImpl:67 - Accept-Encoding: gzip
+12:31:11,047 DEBUG HttpClientImpl:67 - User-Agent: twitter4j http://twitter4j.org/ /3.0.3
+12:31:11,047 DEBUG HttpClientImpl:67 - X-Twitter-Client-Version: 3.0.3
+12:31:11,047 DEBUG HttpClientImpl:67 - Connection: close
+12:31:11,048 DEBUG HttpClientImpl:67 - Post Params: stall_warnings=true
+12:31:11,838 DEBUG HttpClientImpl:67 - Response: 
+12:31:11,838 DEBUG HttpClientImpl:67 - HTTP/1.0 200 OK
+12:31:11,838 DEBUG HttpClientImpl:67 - X-Preamble-Size: 27
+12:31:11,838 DEBUG HttpClientImpl:67 - Content-Type: application/json
+12:31:11,839 DEBUG HttpClientImpl:67 - Connection: close
+12:31:11,839  INFO TwitterStreamImpl:82 - Connection established.
+12:31:11,840  INFO TwitterStreamImpl:82 - Receiving status stream.
+12:31:11,840 DEBUG TwitterStreamImpl:67 - Twitter Stream consumer-1[Receiving stream]
+12:31:11,844 DEBUG StatusStreamImpl:67 - Received:{"friends":[578502168]}

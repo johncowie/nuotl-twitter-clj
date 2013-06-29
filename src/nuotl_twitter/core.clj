@@ -35,7 +35,7 @@
   (fn [tweet-id message]
     (reply-to-tweet twitter tweet-id message)))
 
-(defn handle-tweet [tweet twitter twitter-id]
+(defn- handle-tweet [tweet twitter twitter-id]
   (println tweet)
   (let [processing-result (p/process-tweet tweet)]
     (let [event (:event processing-result)
