@@ -2,8 +2,7 @@
   (:use [midje.sweet])
   (:require [nuotl-twitter.parsing.tweet :as p]
             [clj-time.core :as t]
-            [nuotl-twitter.dao :as dao]
-            [nuotl-twitter.test-utils :refer [exception-with-code]]))
+            [nuotl-twitter.dao :as dao]))
 
 (facts
  (against-background (dao/get-area-ids) => '("n" "cf")

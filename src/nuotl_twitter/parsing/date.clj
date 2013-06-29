@@ -2,9 +2,7 @@
   (:require [clj-time.format :as f]
             [clj-time.core :as t]
             [clojure.string :as s]
-            )
-  (:import ProcessingException)
-  )
+            ))
 
 (defn- today [] (t/now))
 
