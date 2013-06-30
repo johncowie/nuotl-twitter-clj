@@ -20,7 +20,6 @@
 
 (defn is-me? [tweet output]
   (if (= (:_id (:tweeter tweet)) (:application-id tweet))
- ;TODO Need to add support for passing in application id (twitter user ID for NUOTL)
     {:output output :success false}
     {:output output :success true}))
 

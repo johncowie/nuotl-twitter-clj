@@ -5,7 +5,8 @@
             [nuotl-twitter.dao :as dao]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
-            [ring.adapter.jetty :as jetty])
+            [ring.adapter.jetty :as jetty]
+            [clojure.tools.logging :as log])
   (:import [twitter4j StatusUpdate Twitter TwitterFactory TwitterStreamFactory]
            [twitter4j.conf PropertyConfiguration]
            [org.nextupontheleft.twitter ClojureStatusListener])
@@ -25,7 +26,7 @@
 (defn- handle-delete [tweet-id user-id twitter twitter-id]
   (if (not= twitter-id user-id)
     (do
-      (println (format "DELETING: %s" tweet-id))
+      (log/debug (format "DELETING: %s" tweet-id))
       (dao/remove-event tweet-id)
       (doseq [r (dao/get-reply-ids tweet-id)]
         (. twitter (destroyStatus (r :_id)))
@@ -37,7 +38,7 @@
     (reply-to-tweet twitter tweet-id message)))
 
 (defn- handle-tweet [tweet twitter twitter-id]
-  (println tweet)
+  (log/debug tweet)
   (let [processing-result (p/process-tweet tweet)]
     (let [event (:event processing-result)
           tweeter (:tweeter processing-result)

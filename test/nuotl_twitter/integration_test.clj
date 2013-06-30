@@ -2,8 +2,7 @@
   (:require [midje.sweet :refer [facts against-background => anything]]
             [nuotl-twitter.core :refer [listener]]
             [nuotl-twitter.dao :as dao]
-            [clj-time.core :as t]
-            )
+            [clj-time.core :as t])
   (:import [org.nextupontheleft.twitter
             TestUser TestHashtagEntity TestUrlEntity TestStatus MockTwitter]))
 
@@ -18,8 +17,6 @@
 
 (defn status [id text in-reply-to-status user hashtag-entities url-entities]
   (TestStatus. id text in-reply-to-status user hashtag-entities url-entities))
-
-;Need to mock twitter and twitterstream
 
 (def twitter (MockTwitter. ))
 (def my-id 20)

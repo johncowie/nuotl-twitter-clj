@@ -31,11 +31,6 @@
 (defn get-tweeter [id]
   (mc/find-map-by-id "tweeter" id))
 
-(defn add-tweeter [tweeter approved?]
-  (if approved?
-    (mc/save "tweeter" (assoc tweeter :approved "Y"))
-    (mc/save "tweeter" (assoc tweeter :approved "N"))))
-
 (defn add-or-update-tweeter [tweeter]
   (mc/update "tweeter" (select-keys tweeter [:_id]) tweeter :upsert true))
 

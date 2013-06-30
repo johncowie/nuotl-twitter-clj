@@ -19,5 +19,6 @@
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]
+  :resource-paths ["resources"]
   :plugins [[lein-midje "2.0.1"]]
   )

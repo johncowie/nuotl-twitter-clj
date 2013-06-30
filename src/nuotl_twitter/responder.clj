@@ -1,6 +1,7 @@
 (ns nuotl-twitter.responder
   (:require [nuotl-twitter.messages :as m]
-            [clj-time.core :as t]))
+            [clj-time.core :as t]
+            [clojure.tools.logging :as log]))
 
 (defn- tweet-url [tweet code start-date]
   (if (= code :success)
@@ -9,7 +10,7 @@
     (format "http://twitter.com/%s/status/%s" ((tweet :tweeter) :_id) (tweet :_id))))
 
 (defn respond [replyfn tweet code start-date]
-  (println "CODE: " code)
+  (log/debug (format  "Sending response for code [%s]." code))
   (let [name (:name (:tweeter tweet))
         tweet-id (:_id tweet)
         text (m/get-message code)
