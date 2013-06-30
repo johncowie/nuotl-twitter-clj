@@ -7,7 +7,8 @@
             [compojure.handler :refer [site]]
             [ring.adapter.jetty :as jetty])
   (:import [twitter4j StatusUpdate Twitter TwitterFactory TwitterStreamFactory]
-           [twitter4j.conf PropertyConfiguration])
+           [twitter4j.conf PropertyConfiguration]
+           [org.nextupontheleft.twitter ClojureStatusListener])
   (:gen-class))
 
 (defn configuration [file]

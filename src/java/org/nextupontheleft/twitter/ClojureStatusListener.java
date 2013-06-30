@@ -1,3 +1,5 @@
+package org.nextupontheleft.twitter;
+
 import clojure.lang.IFn;
 import clojure.lang.Keyword;
 import clojure.lang.PersistentHashMap;
@@ -90,11 +92,6 @@ public class ClojureStatusListener implements UserStreamListener {
     }
 
     @Override
-    public void onRetweet(User source, User target, Status retweetedStatus) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void onDirectMessage(DirectMessage directMessage) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -156,6 +153,11 @@ public class ClojureStatusListener implements UserStreamListener {
 
     @Override
     public void onScrubGeo(long userId, long upToStatusId) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void onStallWarning(StallWarning stallWarning) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

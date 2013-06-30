@@ -1,3 +1,5 @@
+package org.nextupontheleft.twitter;
+
 import twitter4j.StatusUpdate;
 
 public class MockTwitter {

@@ -1,3 +1,5 @@
+package org.nextupontheleft.twitter;
+
 import twitter4j.*;
 
 import java.util.Date;
@@ -113,11 +115,6 @@ public class TestStatus implements Status {
     }
 
     @Override
-    public Annotations getAnnotations() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public int compareTo(Status status) {
         throw new UnsupportedOperationException();
     }
@@ -151,4 +148,17 @@ public class TestStatus implements Status {
     public int getAccessLevel() {
         throw new UnsupportedOperationException();
     }
+
+    public boolean isPossiblySensitive() {
+        throw new UnsupportedOperationException();
+    }
+
+    public long getCurrentUserRetweetId() {
+        throw new UnsupportedOperationException();
+    }
+
+    public URLEntity[] getDescriptionURLEntities() {
+        throw new UnsupportedOperationException();
+    }
+
 }
