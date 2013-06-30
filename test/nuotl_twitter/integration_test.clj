@@ -4,7 +4,8 @@
             [nuotl-twitter.dao :as dao]
             [clj-time.core :as t]
             )
-  (:import [org.nextupontheleft TestUser TestHashtagEntity TestUrlEntity TestStatus MockTwitter]))
+  (:import [org.nextupontheleft.twitter
+            TestUser TestHashtagEntity TestUrlEntity TestStatus MockTwitter]))
 
 (defn user [id display-name name]
   (TestUser. id display-name name))
