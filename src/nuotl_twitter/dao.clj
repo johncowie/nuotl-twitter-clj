@@ -2,11 +2,13 @@
   (:require [monger.collection :as mc]
             [monger.core :as mg]
             [monger.joda-time]
+            [clojure.tools.logging :as log]
             ))
 
-(defn connect-to-db [db]
-  (mg/connect!)
-  (mg/set-db! (mg/get-db db)))
+(defn connect-to-db [config]
+  (log/debug (format "Connecting to database [%s]." (get-in config [:mongo :database])))
+  (mg/connect! {:host (get-in config [:mongo :host]) :port (get-in config [:mongo :port])})
+  (mg/set-db! (mg/get-db (get-in config [:mongo :database]))))
 
 (defn get-area-ids []
   (map #(% :_id)

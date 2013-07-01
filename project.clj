@@ -16,6 +16,7 @@
                  [org.clojure/tools.logging "0.2.6"]
                  [compojure "1.1.3"]
                  [ring/ring-jetty-adapter "1.1.4"]
+                 [clj-yaml "0.4.0"]
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]

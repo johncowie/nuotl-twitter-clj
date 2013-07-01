@@ -6,7 +6,8 @@
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
             [ring.adapter.jetty :as jetty]
-            [clojure.tools.logging :as log])
+            [clojure.tools.logging :as log]
+            [clj-yaml.core :as yaml])
   (:import [twitter4j StatusUpdate Twitter TwitterFactory TwitterStreamFactory]
            [twitter4j.conf PropertyConfiguration]
            [org.nextupontheleft.twitter ClojureStatusListener])
@@ -69,17 +70,16 @@
 (def app
   (site app-routes))
 
-(defn start-twitter [args]
-  (let [props (nth args 0)
-        db (if (> (count args) 1) (nth args 1) "nuotl")]
-    (dao/connect-to-db db)
-    (let [config (configuration props)]
-      (let [stream (. (TwitterStreamFactory. config) (getInstance))
-            twitter (. (TwitterFactory. config) (getInstance))
-            twitter-id (. stream (getId))]
-        (. stream (addListener (listener twitter twitter-id)))
-        (. stream (user))))))
+(defn start-twitter [config]
+  (dao/connect-to-db config)
+  (let [twitter-config (configuration (get-in config [:twitter :properties-file]))]
+    (let [stream (. (TwitterStreamFactory. twitter-config) (getInstance))
+          twitter (. (TwitterFactory. twitter-config) (getInstance))
+          twitter-id (. stream (getId))]
+      (. stream (addListener (listener twitter twitter-id)))
+      (. stream (user)))))
 
 (defn -main [& args]
-  (.start (Thread. #(jetty/run-jetty app {:port 5000})))
-  (start-twitter args))
+  (let [config (yaml/parse-string (slurp (nth args 0)))]
+    (.start (Thread. #(jetty/run-jetty app (get-in config [:http :port]))))
+    (start-twitter config)))
