@@ -81,5 +81,5 @@
 
 (defn -main [& args]
   (let [config (yaml/parse-string (slurp (nth args 0)))]
-    (.start (Thread. #(jetty/run-jetty app (get-in config [:http :port]))))
+    (.start (Thread. #(jetty/run-jetty app {:port (get-in config [:http :port])})))
     (start-twitter config)))

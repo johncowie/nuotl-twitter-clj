@@ -7,4 +7,4 @@ mongo:
   database: nuotl
 
 twitter:
-  properties-file: twitter4j.properties
+  properties-file: twitter.properties
