@@ -17,6 +17,7 @@
                  [compojure "1.1.3"]
                  [ring/ring-jetty-adapter "1.1.4"]
                  [clj-yaml "0.4.0"]
+                 [clj-http "0.7.3"]
                  ]
   :main nuotl-twitter.core
   :java-source-paths ["src/java" "test/java"]

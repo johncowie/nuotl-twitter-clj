@@ -3,6 +3,8 @@
             [monger.core :as mg]
             [monger.joda-time]
             [clojure.tools.logging :as log]
+            [clj-http.client :as client]
+            [cheshire.core :as json]
             ))
 
 (defn connect-to-db [config]
@@ -17,7 +19,7 @@
 
 (defn add-event [event]
   (println event)
-  (mc/save "event" event))
+  (client/post "http://localhost:40000/events" (json/generate-string event)))
 
 (defn add-reply-id [reply-id event-tweet-id]
   (mc/save "reply" {:_id reply-id :event-id event-tweet-id}))
