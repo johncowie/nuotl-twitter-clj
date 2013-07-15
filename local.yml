@@ -8,3 +8,5 @@ mongo:
 
 twitter:
   properties-file: twitter4j.properties
+  authorised: 
+    - johncowiedev

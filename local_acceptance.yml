@@ -8,3 +8,5 @@ mongo:
 
 twitter:
   properties-file: /Users/John/Dropbox/nuotltester.properties
+  authorised: 
+    - nuotltestuser
