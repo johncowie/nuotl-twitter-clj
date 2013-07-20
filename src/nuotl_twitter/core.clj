@@ -3,11 +3,11 @@
             [nuotl-twitter.processor :as p]
             [nuotl-twitter.responder :as r]
             [nuotl-twitter.dao :as dao]
+            [nuotl-twitter.config :as config]
             [compojure.core :refer [defroutes GET]]
             [compojure.handler :refer [site]]
             [ring.adapter.jetty :as jetty]
-            [clojure.tools.logging :as log]
-            [clj-yaml.core :as yaml])
+            [clojure.tools.logging :as log])
   (:import [twitter4j StatusUpdate Twitter TwitterFactory TwitterStreamFactory]
            [twitter4j.conf PropertyConfiguration]
            [org.nextupontheleft.twitter ClojureStatusListener])
@@ -46,14 +46,14 @@
           message-code (:message processing-result)]
       (if-not (nil? event)
         (dao/add-event event)
-        (println "No event so not added"))
+        (log/debug "No event so not added"))
       (if-not (nil? tweeter)
         (dao/add-or-update-tweeter tweeter)
-        (println "No tweeter so not added"))
+        (log/debug "No tweeter so not added"))
       (if-not (nil? message-code)
         (r/respond
          (get-reply-fn twitter) tweet message-code (:start event))
-        (println "No message code so no reply")
+        (log/debug "No message code so no reply")
         ))))
 
 (defn listener [twitter twitter-id]
@@ -61,7 +61,7 @@
    twitter-id
    #(handle-tweet % twitter twitter-id)  ; status
    #(handle-delete %1 %2 twitter twitter-id) ; deletion
-   #(println %) ; exception
+   #(log/warn %) ; exception
    ))
 
 (defroutes app-routes
@@ -80,6 +80,6 @@
       (. stream (user)))))
 
 (defn -main [& args]
-  (let [config (yaml/parse-string (slurp (nth args 0)))]
+  (let [config (config/load-config (nth args 0))]
     (.start (Thread. #(jetty/run-jetty app {:port (get-in config [:http :port])})))
     (start-twitter config)))

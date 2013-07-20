@@ -14,12 +14,14 @@
   (mg/set-db! (mg/get-db (get-in config [:mongo :database]))))
 
 (defn get-area-ids []
-  (map #(% :_id)
-       (mc/find-maps "area")))
+  (keys (json/parse-string (:body (client/get "http://localhost:40000/areas")))))
 
 (defn add-event [event]
-  (println event)
-  (client/post "http://localhost:40000/events" (json/generate-string event)))
+  (log/debug (format  "Persisting event: %s" event))
+  ;(client/post "http://localhost:40000/events" (json/generate-string event))
+  (mc/save "event" event)
+  (log/debug (format "Persisted event."))
+  )
 
 (defn add-reply-id [reply-id event-tweet-id]
   (mc/save "reply" {:_id reply-id :event-id event-tweet-id}))
@@ -37,6 +39,7 @@
   (mc/find-map-by-id "tweeter" id))
 
 (defn add-or-update-tweeter [tweeter]
+  (log/debug (format "Persisting tweeter: %s" tweeter))
   (mc/update "tweeter" (select-keys tweeter [:_id]) tweeter :upsert true))
 
 (defn tweeter-approved? [id]

@@ -2,7 +2,8 @@
   (:require [midje.sweet :refer [facts against-background => anything]]
             [nuotl-twitter.core :refer [listener]]
             [nuotl-twitter.dao :as dao]
-            [clj-time.core :as t])
+            [clj-time.core :as t]
+            [clj-time.local :as l])
   (:import [org.nextupontheleft.twitter
             TestUser TestHashtagEntity TestUrlEntity TestStatus MockTwitter]))
 
@@ -27,7 +28,7 @@
   )
 
 (facts
- (against-background (t/now) => (t/date-time 2013 1 1))
+ (against-background (l/local-now) => (t/date-time 2013 1 1))
  (handle-status (status 1 "@nuotl 1/4/2013 08:00 4h CF An event http://ty.co" 2
                         (user 3 "J C" "jc")
                         (url-entity "http://ty.co" "http://bbc.co.uk" "bbc.co.uk")

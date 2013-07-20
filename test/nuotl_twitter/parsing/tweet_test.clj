@@ -2,11 +2,12 @@
   (:use [midje.sweet])
   (:require [nuotl-twitter.parsing.tweet :as p]
             [clj-time.core :as t]
+            [clj-time.local :as l]
             [nuotl-twitter.dao :as dao]))
 
 (facts
  (against-background (dao/get-area-ids) => '("n" "cf")
-                     (t/now) => (t/date-time 2013 1 1))
+                     (l/local-now) => (t/date-time 2013 1 1 2 0 0))
  (p/parse-tweet "@nuotl") => {:error :too-short-error :event nil}
  (p/parse-tweet "@nuotl X X X X TEXT") => {:error :date-error :event nil}
  (p/parse-tweet "@nuotl 1/2/2013 X X X TEXT") =>  {:error :time-error :event nil}
@@ -27,6 +28,6 @@
                                                           :end (t/date-time 2013 4 20 23 0 0)
                                                           :area :cf
                                                           :text "TEXT"}}
- (p/parse-tweet "@nuotl 31/12/2012 11PM 2H N TEXT") => {:error :in-past-error
+ (p/parse-tweet "@nuotl 1/1/2013 1am 2H N TEXT") => {:error :in-past-error
                                                         :event nil}
  )

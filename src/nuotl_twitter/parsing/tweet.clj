@@ -4,6 +4,7 @@
             [nuotl-twitter.parsing.duration :as duration]
             [nuotl-twitter.parsing.area :as area]
             [clj-time.core :as clj-time]
+            [clj-time.local :as clj-time-local]
             ))
 
 (def tweet-structure
@@ -53,7 +54,7 @@
 
 (defn- check-if-in-past [m]
   (if (nil? (:error m))
-    (if (> (compare (clj-time/now) (:start (:event m))) 0)
+    (if (> (compare (clj-time-local/local-now) (:start (:event m))) 0)
       (return-error :in-past-error)
       m)
     m))

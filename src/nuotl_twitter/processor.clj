@@ -1,6 +1,7 @@
 (ns nuotl-twitter.processor
   (:require [nuotl-twitter.parsing.tweet :as tweet-parser]
-            [nuotl-twitter.dao :as dao]))
+            [nuotl-twitter.dao :as dao]
+            [nuotl-twitter.config :as conf]))
 
 (defn- html-url [display expanded]
   (format "<a href=\"%s\">%s</a>" expanded display))
@@ -27,9 +28,15 @@
   {:output (assoc output :tweeter (:tweeter tweet)) :success true})
 
 (defn is-approved? [tweet output]
-  (if (dao/tweeter-approved? (:_id (:tweeter tweet)))
+  (if (contains?
+       (set (get-in (conf/config) [:twitter :authorised]))
+       (. (:name (:tweeter tweet)) toLowerCase))
     {:output output :success true}
-    {:output (assoc output :message :unapproved) :success false}))
+    (if (dao/tweeter-approved? (:_id (:tweeter tweet)))
+      {:output output :success true}
+      {:output (assoc output :message :unapproved) :success false})))
+
+(set (get-in (conf/config) [:twitter :authorised]))
 
 (defn parse-tweet [tweet output]
   (let [parse-result (tweet-parser/parse-tweet (:text tweet))]
