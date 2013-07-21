@@ -43,7 +43,7 @@
 
 (defn add-or-update-tweeter [tweeter]
   (log/debug (format "Persisting tweeter: %s" tweeter))
-  (mc/update "tweeter" (select-keys tweeter [:_id]) tweeter :upsert true))
+  (post-json "tweeters" tweeter))
 
 (defn tweeter-approved? [id]
   (= (:approved (get-tweeter id)) "Y"))
