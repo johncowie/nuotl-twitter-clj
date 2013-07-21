@@ -13,15 +13,18 @@
                 :port (get-in config [:mongo :port])})
   (mg/set-db! (mg/get-db (get-in config [:mongo :database]))))
 
+(defn post-json [path data]
+  (client/post (str "http://localhost:40000/" path)
+               {:body (json/generate-string data)
+                :content-type :json}))
+
 (defn get-area-ids []
   (keys (json/parse-string (:body (client/get "http://localhost:40000/areas")))))
 
 (defn add-event [event]
   (log/debug (format  "Persisting event: %s" event))
-  ;(client/post "http://localhost:40000/events" (json/generate-string event))
-  (mc/save "event" event)
-  (log/debug (format "Persisted event."))
-  )
+  (post-json "events" event)
+  (log/debug (format "Persisted event.")))
 
 (defn add-reply-id [reply-id event-tweet-id]
   (mc/save "reply" {:_id reply-id :event-id event-tweet-id}))
