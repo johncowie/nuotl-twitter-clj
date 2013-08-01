@@ -24,12 +24,12 @@
        (twitter4j.StatusUpdate. message)
        (inReplyToStatusId tweet-id)))))
 
-(defn- handle-delete [tweet-id user-id twitter twitter-id]
-  (if (not= twitter-id user-id)
+(defn- handle-delete [tweet-id user-id twitter]
+  (if (not= (. twitter (getId)) user-id)
     (do
       (log/debug (format "DELETING: %s" tweet-id))
       (dao/remove-event tweet-id)
-      (doseq [r (dao/get-reply-ids tweet-id)]
+      (doseq [r (dao/get-reply-ids (. twitter (getId)))]
         (. twitter (destroyStatus (r :_id)))
         (dao/remove-reply-id (r :_id))
         ))))
@@ -38,7 +38,7 @@
   (fn [tweet-id message]
     (reply-to-tweet twitter tweet-id message)))
 
-(defn- handle-tweet [tweet twitter twitter-id]
+(defn- handle-tweet [tweet twitter]
   (log/debug tweet)
   (let [processing-result (p/process-tweet tweet)]
     (let [event (:event processing-result)
@@ -56,11 +56,12 @@
         (log/debug "No message code so no reply")
         ))))
 
-(defn listener [twitter twitter-id]
+(defn listener [twitter]
   (ClojureStatusListener.
-   twitter-id
-   #(handle-tweet % twitter twitter-id)  ; status
-   #(handle-delete %1 %2 twitter twitter-id) ; deletion
+   (. twitter (getId))
+   (. twitter (getScreenName))
+   #(handle-tweet % twitter)  ; status
+   #(handle-delete %1 %2 twitter) ; deletion
    #(log/warn %) ; exception
    ))
 
@@ -74,9 +75,8 @@
   (dao/connect-to-db config)
   (let [twitter-config (configuration (get-in config [:twitter :properties-file]))]
     (let [stream (. (TwitterStreamFactory. twitter-config) (getInstance))
-          twitter (. (TwitterFactory. twitter-config) (getInstance))
-          twitter-id (. stream (getId))]
-      (. stream (addListener (listener twitter twitter-id)))
+          twitter (. (TwitterFactory. twitter-config) (getInstance))]
+      (. stream (addListener (listener twitter)))
       (. stream (user)))))
 
 (defn -main [& args]

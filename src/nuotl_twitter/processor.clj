@@ -36,7 +36,13 @@
       {:output output :success true}
       {:output (assoc output :message :unapproved) :success false})))
 
-(set (get-in (conf/config) [:twitter :authorised]))
+(defn is-mention? [tweet output]
+  (if (=
+       (str "@" (. (:application-screen-name tweet) toLowerCase))
+       (nth (clojure.string/split (:text tweet) #" ") 0))
+    {:output output :success true}
+    {:output output :success false}
+    ))
 
 (defn parse-tweet [tweet output]
   (let [parse-result (tweet-parser/parse-tweet (:text tweet))]
@@ -58,6 +64,7 @@
 
 (def logic [
             is-me?
+            is-mention?
             get-tweeter
             is-approved?
             parse-tweet

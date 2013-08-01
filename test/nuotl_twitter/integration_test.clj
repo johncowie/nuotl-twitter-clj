@@ -19,11 +19,10 @@
 (defn status [id text in-reply-to-status user hashtag-entities url-entities]
   (TestStatus. id text in-reply-to-status user hashtag-entities url-entities))
 
-(def twitter (MockTwitter. ))
-(def my-id 20)
+(def twitter (MockTwitter. 20 "nuotl"))
 
 (defn handle-status [status]
-  (. (listener twitter my-id) (onStatus status))
+  (. (listener twitter) (onStatus status))
   (. twitter (getLastUpdate))
   )
 

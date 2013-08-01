@@ -6,6 +6,22 @@ public class MockTwitter {
 
     private String lastUpdate;
     private long lastDestroyed;
+    private final long id;
+    private final String screenName;
+
+
+    public MockTwitter(long id, String screenName) {
+        this.id = id;
+        this.screenName = screenName;
+    }
+
+    public long getId() {
+        return this.id;
+    }
+
+    public String getScreenName() {
+        return this.screenName;
+    }
 
     public void updateStatus(StatusUpdate status) {
         this.lastUpdate = status.getStatus();

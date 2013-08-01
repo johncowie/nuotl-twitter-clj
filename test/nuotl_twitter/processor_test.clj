@@ -6,8 +6,6 @@
             [clj-time.core :as t]
             ))
 
-(def nuotl-id 1)
-
 (defn create-tweeter [tweeter_id]
   {:_id tweeter_id :name "Name" :display-name "Display Name"})
 
@@ -19,6 +17,7 @@
            :expanded-url "http://bbc.co.uk" :start 44 :end 54}]
    :in-response-to 2345
    :application-id 1
+   :application-screen-name "nuotl"
    })
 
 (facts
@@ -56,6 +55,16 @@
  (p/process-tweet (create-tweet "A response" 1))
  => {:event nil :tweeter nil :message nil}
  )
+
+(facts
+ "Given a tweet that doesn't mention the app in the first token
+  When the tweet is processed
+  Then the processing should stop
+  And no information should be returned"
+ (p/process-tweet (create-tweet "@bob blah blah blah blah blah" 22))
+ => {:event nil :tweeter nil :message nil}
+ )
+
 
 (facts
  "Given an unauthorised tweeter

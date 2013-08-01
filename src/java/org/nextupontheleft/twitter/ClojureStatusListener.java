@@ -11,16 +11,22 @@ import java.util.List;
 
 public class ClojureStatusListener implements UserStreamListener {
 
-    private long applicationId;
-    private IFn statusFunction;
-    private IFn deleteFunction;
-    private IFn exceptionFunction;
+    private final long applicationId;
+    private final String applicationScreenName;
+    private final IFn statusFunction;
+    private final IFn deleteFunction;
+    private final IFn exceptionFunction;
 
-    public ClojureStatusListener(long applicationId, IFn statusFunction, IFn deleteFunction, IFn exceptionFunction) {
+    public ClojureStatusListener(long applicationId,
+                                 String applicationScreenName,
+                                 IFn statusFunction,
+                                 IFn deleteFunction,
+                                 IFn exceptionFunction) {
         this.applicationId = applicationId;
         this.statusFunction = statusFunction;
         this.deleteFunction = deleteFunction;
         this.exceptionFunction = exceptionFunction;
+        this.applicationScreenName = applicationScreenName;
     }
 
     @Override
@@ -51,7 +57,8 @@ public class ClojureStatusListener implements UserStreamListener {
                                                          Keyword.intern("tags"), tags,
                                                          Keyword.intern("urls"), urls,
                                                          Keyword.intern("in-response-to"), status.getInReplyToStatusId(),
-                                                         Keyword.intern("application-id"), applicationId
+                                                         Keyword.intern("application-id"), applicationId,
+                                                         Keyword.intern("application-screen-name"), applicationScreenName
                                                          );
         this.statusFunction.invoke(map);
     }
