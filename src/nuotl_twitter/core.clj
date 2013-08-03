@@ -18,18 +18,20 @@
 
 (defn- reply-to-tweet
   [twitter tweet-id message]
-  (. twitter
-     (updateStatus
-      (.
-       (twitter4j.StatusUpdate. message)
-       (inReplyToStatusId tweet-id)))))
+  (let  [reply (. twitter
+                     (updateStatus
+                      (.
+                       (twitter4j.StatusUpdate. message)
+                       (inReplyToStatusId tweet-id))))]
+    (dao/add-reply-id (. reply (getId)) tweet-id)))
 
 (defn- handle-delete [tweet-id user-id twitter]
   (if (not= (. twitter (getId)) user-id)
     (do
       (log/debug (format "DELETING: %s" tweet-id))
       (dao/remove-event tweet-id)
-      (doseq [r (dao/get-reply-ids (. twitter (getId)))]
+      (doseq [r (dao/get-reply-ids tweet-id)]
+        (log/debug (str "Destroying reply with id [" (r :_id) "]"))
         (. twitter (destroyStatus (r :_id)))
         (dao/remove-reply-id (r :_id))
         ))))

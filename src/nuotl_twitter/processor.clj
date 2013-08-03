@@ -13,7 +13,6 @@
    (html-url (url :display-url) (url :expanded-url))))
 
 (defrecord Return [output success])
-(defrecord Output [event tweeter message])
 
 (defn- swap-in-urls [tweet output]
   (let [urls (tweet :urls)]

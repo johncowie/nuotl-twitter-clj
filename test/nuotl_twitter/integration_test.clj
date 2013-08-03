@@ -47,4 +47,6 @@
                   :tags ["hashtag"]
                   :in-response-to 2
                   :text "An event <a href=\"http://bbc.co.uk\">bbc.co.uk</a>"
-                  }) => nil))
+                  }) => nil
+  (dao/add-reply-id anything 1) => nil
+                     ))

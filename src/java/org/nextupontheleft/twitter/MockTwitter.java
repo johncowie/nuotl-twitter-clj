@@ -1,6 +1,7 @@
 package org.nextupontheleft.twitter;
 
 import twitter4j.StatusUpdate;
+import twitter4j.Status;
 
 public class MockTwitter {
 
@@ -23,8 +24,16 @@ public class MockTwitter {
         return this.screenName;
     }
 
-    public void updateStatus(StatusUpdate status) {
+    public Status updateStatus(StatusUpdate status) {
         this.lastUpdate = status.getStatus();
+        return new TestStatus(
+                              123,
+                              status.getStatus(),
+                              status.getInReplyToStatusId(),
+                              new TestUser(this.id, this.screenName, this.screenName),
+                              null,
+                              null
+                              );
     }
 
     public String getLastUpdate() {
