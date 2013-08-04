@@ -1,25 +1,23 @@
 (ns nuotl-twitter.dao
-  (:require [monger.collection :as mc]
-            [monger.core :as mg]
-            [monger.joda-time]
+  (:require [monger.joda-time]
             [clojure.tools.logging :as log]
             [clj-http.client :as client]
             [cheshire.core :as json]
             ))
 
-(defn connect-to-db [config]
-  (log/debug (format "Connecting to database [%s]." (get-in config [:mongo :database])))
-  (mg/connect! {:host (get-in config [:mongo :host])
-                :port (get-in config [:mongo :port])})
-  (mg/set-db! (mg/get-db (get-in config [:mongo :database]))))
-
-(defn post-json [path data]
+(defn- post-json [path data]
   (client/post (str "http://localhost:40000/" path)
                {:body (json/generate-string data)
                 :content-type :json}))
 
+(defn- get-json [path]
+  (json/parse-string (:body (client/get (str "http://localhost:40000/" path))) #(keyword %)))
+
+(defn- delete-resource [path]
+  (client/delete (str "http://localhost:40000/" path)))
+
 (defn get-area-ids []
-  (keys (json/parse-string (:body (client/get "http://localhost:40000/areas")))))
+  (map #(name %) (keys (get-json "areas"))))
 
 (defn add-event [event]
   (log/debug (format  "Persisting event: %s" event))
@@ -27,19 +25,19 @@
   (log/debug (format "Persisted event.")))
 
 (defn add-reply-id [reply-id event-tweet-id]
-  (mc/save "reply" {:_id reply-id :event-id event-tweet-id}))
+  (post-json "replies" {:_id event-tweet-id :reply reply-id}))
 
-(defn get-reply-ids [event-tweet-id]
-  (mc/find-maps "reply" {:event-id event-tweet-id}))
+(defn get-reply-id [id]
+  (get-json (str "replies/" id)))
 
-(defn remove-reply-id [reply-id]
-  (mc/remove-by-id "reply" reply-id))
+(defn remove-reply-id [event-tweet-id]
+  (delete-resource (str "replies/" event-tweet-id)))
 
 (defn remove-event [id]
-  (mc/remove-by-id "event" id))
+  (delete-resource (str "events/" id)))
 
 (defn get-tweeter [id]
-  (mc/find-map-by-id "tweeter" id))
+  (get-json (str "tweeter/" id)))
 
 (defn add-or-update-tweeter [tweeter]
   (log/debug (format "Persisting tweeter: %s" tweeter))

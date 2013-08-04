@@ -22,19 +22,22 @@
                      (updateStatus
                       (.
                        (twitter4j.StatusUpdate. message)
-                       (inReplyToStatusId tweet-id))))]
-    (dao/add-reply-id (. reply (getId)) tweet-id)))
+                       (inReplyToStatusId (read-string tweet-id)))))]
+    (dao/add-reply-id (str (. reply (getId))) tweet-id)))
 
 (defn- handle-delete [tweet-id user-id twitter]
-  (if (not= (. twitter (getId)) user-id)
+  (if (not= (str (. twitter (getId))) user-id)
     (do
       (log/debug (format "DELETING: %s" tweet-id))
       (dao/remove-event tweet-id)
-      (doseq [r (dao/get-reply-ids tweet-id)]
-        (log/debug (str "Destroying reply with id [" (r :_id) "]"))
-        (. twitter (destroyStatus (r :_id)))
-        (dao/remove-reply-id (r :_id))
-        ))))
+      (let [r (dao/get-reply-id tweet-id)]
+        (do
+          (log/debug "Reply: " r (class r))
+          (log/debug (:reply r))
+          (log/debug (str "Destroying reply with id [" (:reply r) "]"))
+          (. twitter (destroyStatus (read-string (:reply r))))
+          (dao/remove-reply-id (:_id r))))
+        )))
 
 (defn- get-reply-fn [twitter]
   (fn [tweet-id message]
@@ -74,7 +77,6 @@
   (site app-routes))
 
 (defn start-twitter [config]
-  (dao/connect-to-db config)
   (let [twitter-config (configuration (get-in config [:twitter :properties-file]))]
     (let [stream (. (TwitterStreamFactory. twitter-config) (getInstance))
           twitter (. (TwitterFactory. twitter-config) (getInstance))]

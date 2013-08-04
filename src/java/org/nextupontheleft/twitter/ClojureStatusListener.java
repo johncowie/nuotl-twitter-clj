@@ -45,13 +45,14 @@ public class ClojureStatusListener implements UserStreamListener {
         PersistentVector tags = PersistentVector.create(hashtagList);
         PersistentVector urls = PersistentVector.create(urlMaps);
         PersistentHashMap user = PersistentHashMap.create(Keyword.intern("_id"),
-                                                          status.getUser().getId(),
+                                                          "" + status.getUser().getId(),
                                                           Keyword.intern("name"),
                                                           status.getUser().getScreenName(),
                                                           Keyword.intern("display-name"),
                                                           status.getUser().getName());
         PersistentHashMap map = PersistentHashMap.create(
-                                                         Keyword.intern("_id"), status.getId(),
+                                                         Keyword.intern("_id"),
+                                                         "" + status.getId(),
                                                          Keyword.intern("text"), status.getText(),
                                                          Keyword.intern("tweeter"), user,
                                                          Keyword.intern("tags"), tags,
@@ -69,8 +70,8 @@ public class ClojureStatusListener implements UserStreamListener {
 
     @Override
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
-        this.deleteFunction.invoke(statusDeletionNotice.getStatusId(),
-                                   statusDeletionNotice.getUserId());
+        this.deleteFunction.invoke("" + statusDeletionNotice.getStatusId(),
+                                   "" + statusDeletionNotice.getUserId());
     }
 
     @Override

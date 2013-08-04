@@ -1,12 +1,7 @@
 http:
   port: 40010
 
-mongo:
-  host: localhost
-  port: 27017
-  database: nuotl-acceptance
-
 twitter:
   properties-file: /Users/John/Dropbox/nuotltester.properties
-  authorised: 
+  authorised:
     - nuotltestuser
